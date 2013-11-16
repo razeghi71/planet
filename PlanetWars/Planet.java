@@ -14,6 +14,8 @@ public class Planet {
     private double diameter;
     private Team owner;
     private int numberOfSoldiers;
+    private static double upgradeRate = 0.2;
+    private static int minUpgradeSoldiers = 40 ;
 
     public Planet(double diameter) {
         this.diameter = diameter;
@@ -24,14 +26,18 @@ public class Planet {
         this.owner = owner;
         this.numberOfSoldiers = numberOfSoldiers;
     }
-
     
     public double getDiameter() {
         return diameter;
     }
-
-    public void setDiameter(double diameter) {
-        this.diameter = diameter;
+    
+    public void upgradePlanet ( int numberOfSoldiersGive ){
+        if ( numberOfSoldiersGive < minUpgradeSoldiers )
+            return;
+        if ( this.numberOfSoldiers < numberOfSoldiersGive )
+            return;
+        // Just a simple formula for calculating upgrade
+        this.diameter+=upgradeRate*(numberOfSoldiersGive/minUpgradeSoldiers); 
     }
 
     public Team getOwner() {
@@ -52,7 +58,9 @@ public class Planet {
     
     
     public void sendSoldierTo ( Planet other , int numberOfSoldiers ){
-        //TODO : implement Soldier Send 
+        int newNumberOfSoldiers = other.getNumerOfSoldiers() - getNumerOfSoldiers();
+        other.setNumerOfSoldiers(Math.abs(newNumberOfSoldiers));
+        if ( newNumberOfSoldiers < 0 )
+            other.setOwner(getOwner());
     }
-    
 }
