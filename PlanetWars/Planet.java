@@ -14,7 +14,9 @@ public class Planet {
     private double diameter;
     private Team owner;
     private int numberOfSoldiers;
-    private static double upgradeRate = 0.2;
+    
+    // upgrade parameteres
+    private static double upgradeRate = 0.2; 
     private static int minUpgradeSoldiers = 40 ;
 
     public Planet(double diameter) {
@@ -58,6 +60,7 @@ public class Planet {
     
     
     public void sendSoldierTo ( Planet other , int numberOfSoldiers ){
+        // here Graphic Engine should call 
         int newNumberOfSoldiers = other.getNumerOfSoldiers() - getNumerOfSoldiers();
         other.setNumerOfSoldiers(Math.abs(newNumberOfSoldiers));
         if ( newNumberOfSoldiers < 0 )
