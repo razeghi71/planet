@@ -6,27 +6,32 @@
 
 package PlanetWars;
 
+import java.awt.geom.Point2D;
+
 /**
  *
  * @author mohammad
  */
-public class Planet {
+public class Planet extends GameObject{
     private double diameter;
     private Team owner;
     private int numberOfSoldiers;
+    private Point2D position;
     
     // upgrade parameteres
     private static double upgradeRate = 0.2; 
     private static int minUpgradeSoldiers = 40 ;
 
-    public Planet(double diameter) {
+    public Planet(double diameter, Point2D position) {
         this.diameter = diameter;
+        this.position = position;
     }
 
-    public Planet(double diameter, Team owner, int numberOfSoldiers) {
+    public Planet(double diameter, Team owner, int numberOfSoldiers, Point2D position) {
         this.diameter = diameter;
         this.owner = owner;
         this.numberOfSoldiers = numberOfSoldiers;
+        this.position = position;
     }
     
     public double getDiameter() {
@@ -57,7 +62,6 @@ public class Planet {
     public void setNumerOfSoldiers(int numberOfSoldiers) {
         this.numberOfSoldiers = numberOfSoldiers;
     }
-    
     
     public void sendSoldierTo ( Planet other , int numberOfSoldiers ){
         // here Graphic Engine should call 
