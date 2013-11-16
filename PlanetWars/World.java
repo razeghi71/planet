@@ -7,10 +7,9 @@
 package PlanetWars;
 
 /**
- * each graphic Engine Should Implement this interface
+ *
  * @author mohammad
  */
-
-public interface GraphicEngine {
-    void sendSoldier ( Planet from , Planet to , int numberOfSoldiers);
+public class World extends GameObject{
+    
 }

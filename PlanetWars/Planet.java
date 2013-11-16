@@ -62,6 +62,15 @@ public class Planet extends GameObject{
     public void setNumerOfSoldiers(int numberOfSoldiers) {
         this.numberOfSoldiers = numberOfSoldiers;
     }
+
+    public Point2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
+    
     
     public void sendSoldierTo ( Planet other , int numberOfSoldiers ){
         // here Graphic Engine should call 
@@ -69,5 +78,6 @@ public class Planet extends GameObject{
         other.setNumerOfSoldiers(Math.abs(newNumberOfSoldiers));
         if ( newNumberOfSoldiers < 0 )
             other.setOwner(getOwner());
+        engine.sendSoldier(this, other, numberOfSoldiers);
     }
 }
