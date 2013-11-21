@@ -52,8 +52,10 @@ public class Game {
             t[0].join();
             t[1].join();
         
-        } catch (IOException | InterruptedException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex){
+        	Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
