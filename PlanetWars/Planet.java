@@ -6,32 +6,38 @@
 
 package PlanetWars;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
+
 
 /**
  *
  * @author mohammad
  */
-public class Planet extends GameObject{
-    private double diameter;
-    private Team owner;
-    private int numberOfSoldiers;
-    private Point2D position;
+public class Planet {
+    private int diameter;
+    private Team owner ;
+    private int numberOfSoldiers = 0;
+    private Point position;
     
     // upgrade parameteres
     private static double upgradeRate = 0.2; 
     private static int minUpgradeSoldiers = 40 ;
+    
+    //Interface
+    private GraphicEngine engine ;
 
-    public Planet(double diameter, Point2D position) {
+    public Planet(int diameter, Point position, GraphicEngine graphicEngine) {
         this.diameter = diameter;
         this.position = position;
+        this.engine = graphicEngine;
     }
 
-    public Planet(double diameter, Team owner, int numberOfSoldiers, Point2D position) {
+    public Planet(int diameter, Team owner, int numberOfSoldiers, Point position, GraphicEngine graphicEngine) {
         this.diameter = diameter;
         this.owner = owner;
         this.numberOfSoldiers = numberOfSoldiers;
         this.position = position;
+        this.engine = graphicEngine;
     }
     
     public double getDiameter() {
@@ -63,11 +69,11 @@ public class Planet extends GameObject{
         this.numberOfSoldiers = numberOfSoldiers;
     }
 
-    public Point2D getPosition() {
+    public Point getPosition() {
         return position;
     }
 
-    public void setPosition(Point2D position) {
+    public void setPosition(Point position) {
         this.position = position;
     }
     
@@ -79,5 +85,18 @@ public class Planet extends GameObject{
         if ( newNumberOfSoldiers < 0 )
             other.setOwner(getOwner());
         engine.sendSoldier(this, other, numberOfSoldiers);
+    }
+    
+    
+    @Override
+    public String toString(){
+        return "{\n"
+                + "dia:" + Integer.toString(diameter)  + ",\n"
+                + "owner:" + owner.getName() + ",\n"
+                + "soldiers:" + Integer.toString(numberOfSoldiers) + ",\n"
+                + "x:" + Integer.toString(position.x) + ",\n"
+                + "y:" + Integer.toString(position.y) + "\n"
+                + "}"
+                ;
     }
 }
