@@ -78,6 +78,11 @@ public class Planet {
     }
     
     
+    /**
+     * send soldier from this planet to other
+     * @param other planet to send soldiers
+     * @param numberOfSoldiers number of soldiers to send
+     */
     public void sendSoldierTo ( Planet other , int numberOfSoldiers ){
         // here Graphic Engine should call 
         int newNumberOfSoldiers = other.getNumerOfSoldiers() - getNumerOfSoldiers();

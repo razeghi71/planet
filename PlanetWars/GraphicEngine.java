@@ -12,5 +12,16 @@ package PlanetWars;
  */
 
 public interface GraphicEngine {
+    /**
+     * send soldier from one planet to other
+     * @param from from planet
+     * @param to to planet
+     * @param numberOfSoldiers number of soldiers to send
+     */
     void sendSoldier ( Planet from , Planet to , int numberOfSoldiers);
+    
+    /**
+     * update world graphic
+     */
+    void updateWorld();
 }

@@ -21,6 +21,11 @@ public class Game {
     private World world;
     private GraphicEngine engine;
     
+    /**
+     * Game Class
+     * @param port which port to listen on
+     * @param map map file
+     */
     public Game(int port, String map)  {
         this.socket = new Socket[2];
         world = new World(map,engine);
@@ -53,6 +58,9 @@ public class Game {
         
     }
     
+    /**
+     * Run Game
+     */
     public void run ( ){
         while (true){
             String info = world.getCompleteWorldInfo();
