@@ -76,8 +76,8 @@ public class World {
         Team team1 = new Team(sc.next());
         Team team2 = new Team(sc.next());
         
-        engine.setTeam1Name(team1.getName());
-        engine.setTeam1Name(team2.getName());
+        engine.setTeamNames(team1.getName(),team2.getName());
+        
         
         
         int numberOfPlanets = sc.nextInt();
