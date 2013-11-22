@@ -25,9 +25,12 @@ public class Game {
      * @param port which port to listen on
      * @param map map file
      */
-    public Game(int port, String map)  {
+    public Game(int port, String map,GraphicEngine engine)  {
         this.socket = new Socket[2];
-        world = new World(map);
+        
+        
+        
+        world = new World(map,engine);
        
         
         try {

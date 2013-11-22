@@ -22,29 +22,24 @@ public class World {
     ArrayList<Soldier> soldiers;
     int width;
     int height;
+    GraphicEngine engine;
     
-    public World (){
+    public World (GraphicEngine engine){
         parseMapFile("default.map");
+        this.engine = engine;
     }
     
-    public World(String map){
+    public World(String map,GraphicEngine engine){
         parseMapFile(map);    
+        this.engine = engine;
     }
     
     public Planet[] getPlanets() {
         return planets;
     }
-
-    public void setPlanets(Planet[] planets) {
-        this.planets = planets;
-    }
-
+    
     public ArrayList<Soldier> getSoldiers() {
         return soldiers;
-    }
-
-    public void setSoldiers(ArrayList<Soldier> soldiers) {
-        this.soldiers = soldiers;
     }
 
     public int getWidth() {
@@ -73,11 +68,17 @@ public class World {
         }
         Scanner sc = new Scanner(inp);
         
-        width = sc.nextInt();
-        height = sc.nextInt();
+        setWidth(sc.nextInt()); 
+        setHeight(sc.nextInt()); 
+        
+        engine.setSize(getWidth(), getHeight());
         
         Team team1 = new Team(sc.next());
         Team team2 = new Team(sc.next());
+        
+        engine.setTeam1Name(team1.getName());
+        engine.setTeam1Name(team2.getName());
+        
         
         int numberOfPlanets = sc.nextInt();
         
@@ -96,9 +97,15 @@ public class World {
             soldiers = sc.nextInt();
             
             if ( team.equals("none") )
+            {
                 planets[i]=new Planet(dia, new Point(x, y));
+                engine.addPlanet(planets[i]);
+            }
             else
+            {
                 planets[i] = new Planet(dia, team2, soldiers, new Point(x, y));
+                engine.addPlanet(planets[i]);
+            }
         }
     }
     
@@ -110,7 +117,9 @@ public class World {
         
         
         p1.setNumerOfSoldiers(nrOfCurrentPlanets-nr);
-        soldiers.add(new Soldier(p1.getOwner(), p1.getPosition(), p2 , nr));
+        Soldier newSoldier = new Soldier(p1.getOwner(), p1.getPosition(), p2 , nr);
+        soldiers.add(newSoldier);
+        engine.addSoldier(newSoldier);
     }
     
     public boolean isGameFinished (){
@@ -130,9 +139,11 @@ public class World {
     public void Step(){
         for (int i = 0; i < planets.length; i++) {
             planets[i].Step();
+            engine.updatePlanet(planets[i]);
         }
         for (int i = 0; i < soldiers.size(); i++) {
             soldiers.get(i).setNewPos();
+            engine.updateSoldier(soldiers.get(i));
         }
         destroyUselessSoldiers();
     }
@@ -154,6 +165,7 @@ public class World {
                         soldiers.get(i).dest.setOwner(soldiers.get(i).team);
                     }
                 }
+                engine.destroySoldier(soldiers.get(i));
                 soldiers.remove(soldiers.get(i));
             }
         }
@@ -170,5 +182,4 @@ public class World {
         }
         return ret;
     }
-    
 }
