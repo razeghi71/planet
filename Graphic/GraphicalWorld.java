@@ -39,6 +39,7 @@ public class GraphicalWorld implements GraphicEngine {
 	private void makeMainView() {
 		mainView = new ImagePanel("/resources/Galaxy.jpg");
 		mainView.setSize(window.getWidth(), window.getHeight()-50);
+		mainView.setLayout(null);
 		mainView.setLocation(0, 50);
 		window.add(mainView);		
 	}
@@ -59,9 +60,9 @@ public class GraphicalWorld implements GraphicEngine {
     	pl.setLocation(planet.getPosition());
     	
     	JLabel text=new JLabel(""+planet.getNumerOfSoldiers());
-    	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/8 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
-    	text.setSize(pl.getWidth()/2, pl.getHeight()/2);
-    	text.setLocation(pl.getWidth()/4, pl.getHeight()/4);
+    	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/15 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
+    	text.setSize(pl.getWidth()/3, pl.getHeight()/3);
+    	text.setLocation(pl.getWidth()/3, pl.getHeight()/3);
     	pl.add(text);
     	
     	ImageIcon imageForOne = null;
@@ -88,9 +89,9 @@ public class GraphicalWorld implements GraphicEngine {
     	pl.setLocation(planet.getPosition());
     	
     	JLabel text=(JLabel) pl.getComponents()[0];
-    	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/8 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
-    	text.setSize(pl.getWidth()/2, pl.getHeight()/2);
-    	text.setLocation(pl.getWidth()/4, pl.getHeight()/4);
+    	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/15 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
+    	text.setSize(pl.getWidth()/3, pl.getHeight()/3);
+    	text.setLocation(pl.getWidth()/3, pl.getHeight()/3);
     	pl.add(text);
     	
     	ImageIcon imageForOne = null;
@@ -143,15 +144,15 @@ public class GraphicalWorld implements GraphicEngine {
 	
 		makeMainView();
 		
-		window.addWindowStateListener(new WindowStateListener() {
-
-	        public void windowStateChanged(WindowEvent arg0) {
-	            if (arg0.getNewState() == JFrame.ICONIFIED) {
-	            	mainView.setLayout(null);
-	            }
-
-	        }
-	    });
+//		window.addWindowStateListener(new WindowStateListener() {
+//
+//	        public void windowStateChanged(WindowEvent arg0) {
+//	            if (arg0.getNewState() == JFrame.ICONIFIED) {
+//	            	window.repaint();
+//	            }
+//
+//	        }
+//	    });
 		
 		window.setResizable(false);
 		window.setLayout(null);
