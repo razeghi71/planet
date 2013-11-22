@@ -26,10 +26,12 @@ public class World {
     
     public World (GraphicEngine engine){
         this.engine = engine;
+        this.soldiers = new ArrayList<Soldier>();
         parseMapFile("default.map");
     }
     
     public World(String map,GraphicEngine engine){
+        this.soldiers = new ArrayList<Soldier>();
         this.engine = engine;
         parseMapFile(map);    
     }
@@ -99,7 +101,7 @@ public class World {
             if ( team.equals("none") )
                 planets[i]=new Planet(dia, new Point(x, y));
             else
-                planets[i] = new Planet(dia, team2, soldiers, new Point(x, y));
+                planets[i] = new Planet(dia, new Team(team), soldiers, new Point(x, y));
             engine.addPlanet(planets[i]);
         }
     }
