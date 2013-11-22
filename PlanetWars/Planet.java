@@ -19,12 +19,6 @@ public class Planet {
     private int numberOfSoldiers = 0;
     private Point position;
     
-    // upgrade parameteres
-    private static double upgradeRate = 0.2; 
-    private static int minUpgradeSoldiers = 40 ;
-    
-
-
     public Planet(int diameter, Point position) {
         this.diameter = diameter;
         this.position = position;
@@ -39,16 +33,7 @@ public class Planet {
     
     public double getDiameter() {
         return diameter;
-    }
-    
-    public void upgradePlanet ( int numberOfSoldiersGive ){
-        if ( numberOfSoldiersGive < minUpgradeSoldiers )
-            return;
-        if ( this.numberOfSoldiers < numberOfSoldiersGive )
-            return;
-        // Just a simple formula for calculating upgrade
-        this.diameter+=upgradeRate*(numberOfSoldiersGive/minUpgradeSoldiers); 
-    }
+    }    
 
     public Team getOwner() {
         return owner;

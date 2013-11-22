@@ -78,8 +78,6 @@ public class World {
         
         engine.setTeamNames(team1.getName(),team2.getName());
         
-        
-        
         int numberOfPlanets = sc.nextInt();
         
         planets = new Planet[numberOfPlanets];
@@ -178,7 +176,7 @@ public class World {
             ret+=Integer.toString(i+1) + " : "+ planets[i].toString() + "\n";
         }
         for (int i = 0; i < soldiers.size(); i++) {
-            ret+=Integer.toString(i+1) + " : "+ soldiers.get(i).toString() + "\n";
+            ret+=soldiers.get(i).toString() + "\n";
         }
         return ret;
     }
