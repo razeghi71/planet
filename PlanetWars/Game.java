@@ -81,7 +81,8 @@ public class Game {
                 t[i] = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        writer[localI].println(localInfo);
+                            writer[localI].println(localInfo);
+                        writer[localI].flush();
                     }
                 });
                 t[i].run();

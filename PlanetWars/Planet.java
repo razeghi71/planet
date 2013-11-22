@@ -18,7 +18,7 @@ public class Planet {
     private Team owner ;
     private int numberOfSoldiers = 0;
     private Point position;
-    public static int SoldierCreateRate = 10 ;
+    public static int SoldierCreateRate = 30 ;
     
     public Planet(int diameter, Point position) {
         this.diameter = diameter;
