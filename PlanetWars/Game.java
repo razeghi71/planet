@@ -22,6 +22,7 @@ public class Game {
     private PrintWriter writer[];
     private Scanner reader[];
     private World world;
+    private String teams[] = new String[2];
 
     /**
      * Game Class
@@ -48,6 +49,7 @@ public class Game {
                             Socket sock = ss.accept();
                             writer[localI] = new PrintWriter(sock.getOutputStream());
                             reader[localI] = new Scanner(sock.getInputStream());
+                            teams[localI] =  reader[localI].next();
                         } catch (IOException ex) {
                             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -85,7 +87,8 @@ public class Game {
                                 int from = Integer.parseInt(parts[0]);
                                 int to = Integer.parseInt(parts[1]);
                                 int nr = Integer.parseInt(parts[2]);
-                                world.sendSoldier(from - 1, to - 1, nr);
+                                if ( teams[localI].equals(world.getPlanets()[from - 1].getOwner().getName()) ) 
+                                    world.sendSoldier(from - 1, to - 1, nr);
                             } catch (NumberFormatException nfe) {
                             }
                         }
@@ -115,7 +118,7 @@ public class Game {
                     });
                     writerThread[i].start();
                 }
-
+                
                 world.Step();
                 try {
                     Thread.sleep(200);

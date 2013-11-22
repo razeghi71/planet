@@ -17,7 +17,7 @@ public class Soldier {
     Planet dest;
     int strenght;
 
-    public static int soldierSpeed =  1;
+    public static int soldierSpeed =  8;
     
     private boolean arrived = false;
     
@@ -69,8 +69,8 @@ public class Soldier {
        double ratio = dist/soldierSpeed;
        
        
-       int newX = (int) (( dest.getPosition().x - position.x  ) /ratio) + dest.getPosition().x;
-       int newY = (int) (( dest.getPosition().y - position.y  ) /ratio) + dest.getPosition().y;
+       int newX = (int) (( dest.getPosition().x - position.x  ) /ratio) + position.x;
+       int newY = (int) (( dest.getPosition().y - position.y  ) /ratio) + position.y;
        
         setPosition(new Point(newX, newY));
     

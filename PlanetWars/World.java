@@ -110,7 +110,6 @@ public class World {
         Planet p1 = planets[planet1];
         Planet p2 = planets[planet2];
         
-        
         int nrOfCurrentSolInPlanets = p1.getNumerOfSoldiers() ;
         
         if ( nrOfCurrentSolInPlanets < nr)
@@ -143,6 +142,7 @@ public class World {
         }
         for (int i = 0; i < soldiers.size(); i++) {
             soldiers.get(i).setNewPos();
+            System.out.println(soldiers.get(i).getPosition());
             engine.updateSoldier(soldiers.get(i));
         }
         destroyUselessSoldiers();
