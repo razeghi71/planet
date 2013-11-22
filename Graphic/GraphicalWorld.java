@@ -219,6 +219,9 @@ public class GraphicalWorld implements GraphicEngine {
         } else {
 
             radians = Math.atan((float) (A.y - B.y) / (float) (A.x - B.x));
+            if (A.x > B.x) {
+            	radians += Math.PI;
+            }
         }
         AffineTransform transform = new AffineTransform();
         transform.rotate(radians, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
