@@ -12,20 +12,22 @@ import java.awt.Point;
  * @author mohammad
  */
 public class Soldier {
-    Team team;
-    Point position;
-    Planet dest;
-    int strenght;
+    private Team team;
+    private Point position;
+    private Planet dest;
+    private int strenght;
+    private long number ; 
 
     public static int soldierSpeed =  8;
     
     private boolean arrived = false;
     
-    public Soldier(Team team, Point position, Planet dest, int strenght) {
+    public Soldier(Team team, Point position, Planet dest, int strenght, long number) {
         this.team = team;
         this.position = position;
         this.dest = dest;
         this.strenght = strenght;
+        this.number = number;
     }
 
     public Team getTeam() {
@@ -89,6 +91,7 @@ public class Soldier {
     @Override
     public String toString() {
         return "{\n" 
+                + "num:" + number + ",\n"
                 + "team:" + team + ",\n"
                 + "posX:" + position.x + ",\n"
                 + "posY:" + position.y + ",\n"
