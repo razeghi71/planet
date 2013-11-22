@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package PlanetWars;
 
 import java.awt.Point;
@@ -108,6 +102,9 @@ public class World {
     }
     
     public void sendSoldier( int planet1 , int planet2, int nr){
+        if ( planet1 >= planets.length || planet2 >= planets.length )
+            return;
+        
         Planet p1 = planets[planet1];
         Planet p2 = planets[planet2];
         
@@ -182,10 +179,10 @@ public class World {
         for (int i = 0; i < planets.length; i++) {
             ret+=Integer.toString(i+1) + " : "+ planets[i].toString() + "\n";
         }
+        ret += "#";
         for (int i = 0; i < soldiers.size(); i++) {
             ret+=soldiers.get(i).toString() + "\n";
         }
-        ret+="$";
         return ret;
     }
 }
