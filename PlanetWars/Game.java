@@ -76,15 +76,20 @@ public class Game {
             String info = world.getCompleteWorldInfo();
             Thread[] t = new Thread[2];
             for (int i = 0; i < 2; i++) {
+                final int localI = i;
+                final String localInfo = info;
                 t[i] = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        
+                        writer[localI].println(localInfo);
                     }
                 });
                 t[i].run();
             }
             
+            
+            
+            world.Step();
         }
     }
     

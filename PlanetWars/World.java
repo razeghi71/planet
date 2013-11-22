@@ -95,15 +95,10 @@ public class World {
             soldiers = sc.nextInt();
             
             if ( team.equals("none") )
-            {
                 planets[i]=new Planet(dia, new Point(x, y));
-                engine.addPlanet(planets[i]);
-            }
             else
-            {
                 planets[i] = new Planet(dia, team2, soldiers, new Point(x, y));
-                engine.addPlanet(planets[i]);
-            }
+            engine.addPlanet(planets[i]);
         }
     }
     
