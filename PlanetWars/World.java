@@ -9,6 +9,7 @@ package PlanetWars;
 import java.awt.Point;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -18,6 +19,7 @@ import java.util.Scanner;
 public class World {
     
     Planet [] planets;
+    ArrayList<Soldier> soldiers;
     GraphicEngine engine;
     int width;
     int height;
@@ -73,7 +75,14 @@ public class World {
     }
     
     public void sendSoldier( int planet1 , int planet2, int nr){
-        planets[planet1].sendSoldierTo(planets[planet2], nr);
+        Planet p1 = planets[planet1];
+        Planet p2 = planets[planet2];
+        
+        int nrOfCurrentPlanets = p1.getNumerOfSoldiers() ;
+        
+        
+        p1.setNumerOfSoldiers(nrOfCurrentPlanets-nr);
+        soldiers.add(new Soldier(p1.getOwner(), p1.getPosition(), p2 , nr));
     }
     
     public boolean isGameFinished (){
@@ -87,6 +96,39 @@ public class World {
 
     public String getCompleteWorldInfo (){
         return toString();
+    }
+    
+    
+    public void Step(){
+        for (int i = 0; i < planets.length; i++) {
+            planets[i].Step();
+        }
+        for (int i = 0; i < soldiers.size(); i++) {
+            soldiers.get(i).setNewPos();
+        }
+        destroyUselessSoldiers();
+    }
+    
+    public void destroyUselessSoldiers(){
+        for (int i = 0; i < soldiers.size(); i++) {
+            if ( soldiers.get(i).isArrived() ){
+                int nr = soldiers.get(i).strenght;
+                int nrOfCurrent = soldiers.get(i).dest.getNumerOfSoldiers();
+                if ( soldiers.get(i).team.equals(soldiers.get(i).dest.getOwner()) 
+                        || soldiers.get(i).dest.getOwner().equals("none")   ){
+                    soldiers.get(i).dest.setNumerOfSoldiers(nr+nrOfCurrent);
+                } else {
+                    int newNumber = nrOfCurrent - nr ;
+                    if ( newNumber > 0 )
+                        soldiers.get(i).dest.setNumerOfSoldiers(newNumber);
+                    else if ( newNumber == 0 ){
+                        soldiers.get(i).dest.setNumerOfSoldiers(-newNumber);
+                        soldiers.get(i).dest.setOwner(soldiers.get(i).team);
+                    }
+                }
+                soldiers.remove(soldiers.get(i));
+            }
+        }
     }
     
     @Override

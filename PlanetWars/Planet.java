@@ -77,21 +77,10 @@ public class Planet {
         this.position = position;
     }
     
-    
-    /**
-     * send soldier from this planet to other
-     * @param other planet to send soldiers
-     * @param numberOfSoldiers number of soldiers to send
-     */
-    public void sendSoldierTo ( Planet other , int numberOfSoldiers ){
-        // here Graphic Engine should call 
-        int newNumberOfSoldiers = other.getNumerOfSoldiers() - getNumerOfSoldiers();
-        other.setNumerOfSoldiers(Math.abs(newNumberOfSoldiers));
-        if ( newNumberOfSoldiers < 0 )
-            other.setOwner(getOwner());
-        engine.sendSoldier(this, other, numberOfSoldiers);
+
+    public void Step(){
+        
     }
-    
     
     @Override
     public String toString(){
@@ -101,7 +90,7 @@ public class Planet {
                 + "soldiers:" + Integer.toString(numberOfSoldiers) + ",\n"
                 + "x:" + Integer.toString(position.x) + ",\n"
                 + "y:" + Integer.toString(position.y) + "\n"
-                + "}"
+                + "}\n"
                 ;
     }
 }
