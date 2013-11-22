@@ -59,10 +59,10 @@ public class GraphicalWorld implements GraphicEngine {
         pl.setLocation((int) (soldier.getPosition().getX() - width / 2), (int) (soldier.getPosition().getY() - height / 2));
         JLabel text = new JLabel();
         text.setHorizontalAlignment(SwingConstants.CENTER);
-        text.setText("<html><font color='black'>" + soldier.getStrenght() + "</font></html>");
-        text.setFont(new Font("Arial Black", Font.BOLD, 15));
-        text.setSize(pl.getWidth(), pl.getHeight() / 3);
-        text.setLocation(0, pl.getHeight() / 3);
+        text.setText(soldier.getStrenght() + "");
+        text.setFont(new Font("Arial", Font.BOLD, 15));
+        text.setSize(pl.getWidth(), 30);
+        text.setLocation(0, pl.getHeight()/2 - 15);
         pl.add(text);
         String color = "";
         if (soldier.getTeam().getName().equals(team1)) {
@@ -88,7 +88,7 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = soldiers.get(soldier);
         pl.setLocation((int) (soldier.getPosition().getX() - pl.getWidth() / 2), (int) (soldier.getPosition().getY() - pl.getHeight() / 2));
         JLabel text = new JLabel();
-        text.setText("<html><font color='black'>" + soldier.getStrenght() + "</font></html>");
+        text.setText( + soldier.getStrenght() + "");
 
         mainView.repaint();
     }
