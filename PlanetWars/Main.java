@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
     	GraphicEngine engine = new GraphicalWorld();
         Game g = new Game(4000, "/resources/default.map", engine);
-        g.run();
+        g.doSim();
 //    	g.setSize(500, 600);
 //    	g.setTeamNames("Kossher1", "Kossher2");
 //    	

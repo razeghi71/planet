@@ -110,10 +110,13 @@ public class World {
         Planet p1 = planets[planet1];
         Planet p2 = planets[planet2];
         
-        int nrOfCurrentPlanets = p1.getNumerOfSoldiers() ;
         
+        int nrOfCurrentSolInPlanets = p1.getNumerOfSoldiers() ;
         
-        p1.setNumerOfSoldiers(nrOfCurrentPlanets-nr);
+        if ( nrOfCurrentSolInPlanets < nr)
+            return;
+        
+        p1.setNumerOfSoldiers(nrOfCurrentSolInPlanets-nr);
         Soldier newSoldier = new Soldier(p1.getOwner(), p1.getPosition(), p2 , nr);
         soldiers.add(newSoldier);
         engine.addSoldier(newSoldier);
@@ -147,23 +150,28 @@ public class World {
     
     public void destroyUselessSoldiers(){
         for (int i = 0; i < soldiers.size(); i++) {
-            if ( soldiers.get(i).isArrived() ){
+            Soldier sol = soldiers.get(i);
+            if ( sol.isArrived() ){
                 int nr = soldiers.get(i).strenght;
-                int nrOfCurrent = soldiers.get(i).dest.getNumerOfSoldiers();
-                if ( soldiers.get(i).team.equals(soldiers.get(i).dest.getOwner()) 
-                        || soldiers.get(i).dest.getOwner().equals("none")   ){
-                    soldiers.get(i).dest.setNumerOfSoldiers(nr+nrOfCurrent);
+                int nrOfCurrentSolsInDest = sol.dest.getNumerOfSoldiers();
+                if ( sol.team.equals(sol.dest.getOwner()) 
+                        || sol.dest.getOwner().equals("none") ){
+                   sol.dest.setNumerOfSoldiers(nr+nrOfCurrentSolsInDest);
                 } else {
-                    int newNumber = nrOfCurrent - nr ;
+                    int newNumber = nrOfCurrentSolsInDest - nr ;
                     if ( newNumber > 0 )
-                        soldiers.get(i).dest.setNumerOfSoldiers(newNumber);
-                    else if ( newNumber == 0 ){
-                        soldiers.get(i).dest.setNumerOfSoldiers(-newNumber);
-                        soldiers.get(i).dest.setOwner(soldiers.get(i).team);
+                        sol.dest.setNumerOfSoldiers(newNumber);
+                    else if ( newNumber < 0 ){
+                        sol.dest.setNumerOfSoldiers(-newNumber);
+                        sol.dest.setOwner(sol.team);
+                    } else {
+                        sol.dest.setNumerOfSoldiers(0);
+                        sol.dest.setOwner(new Team("none"));
                     }
                 }
-                engine.destroySoldier(soldiers.get(i));
-                soldiers.remove(soldiers.get(i));
+                engine.updatePlanet(sol.dest);
+                engine.destroySoldier(sol);
+                soldiers.remove(sol);
             }
         }
     }
