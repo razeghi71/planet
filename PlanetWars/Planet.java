@@ -23,21 +23,18 @@ public class Planet {
     private static double upgradeRate = 0.2; 
     private static int minUpgradeSoldiers = 40 ;
     
-    //Interface
-    private GraphicEngine engine ;
 
-    public Planet(int diameter, Point position, GraphicEngine graphicEngine) {
+
+    public Planet(int diameter, Point position) {
         this.diameter = diameter;
         this.position = position;
-        this.engine = graphicEngine;
     }
 
-    public Planet(int diameter, Team owner, int numberOfSoldiers, Point position, GraphicEngine graphicEngine) {
+    public Planet(int diameter, Team owner, int numberOfSoldiers, Point position) {
         this.diameter = diameter;
         this.owner = owner;
         this.numberOfSoldiers = numberOfSoldiers;
         this.position = position;
-        this.engine = graphicEngine;
     }
     
     public double getDiameter() {
@@ -90,7 +87,7 @@ public class Planet {
                 + "soldiers:" + Integer.toString(numberOfSoldiers) + ",\n"
                 + "x:" + Integer.toString(position.x) + ",\n"
                 + "y:" + Integer.toString(position.y) + "\n"
-                + "}\n"
+                + "}"
                 ;
     }
 }

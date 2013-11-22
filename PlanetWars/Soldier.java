@@ -6,8 +6,7 @@
 
 package PlanetWars;
 
-import java.awt.Point;
-
+import java.awt.Point;  
 /**
  *
  * @author mohammad
@@ -20,7 +19,7 @@ public class Soldier {
 
     public static int soldierSpeed =  10;
     
-    private boolean arrived ;
+    private boolean arrived = false;
     
     public Soldier(Team team, Point position, Planet dest, int strenght) {
         this.team = team;
@@ -62,10 +61,13 @@ public class Soldier {
     }  
     
     public void setNewPos(){
+       // Using Tales To Calc New Pos Based On Speed
        double dist = ( position.x - dest.getPosition().x )*( position.x - dest.getPosition().x ) 
                + ( position.y - dest.getPosition().y )*( position.x - dest.getPosition().x );
        
+       
        double ratio = dist/soldierSpeed;
+       
        
        int newX = (int) (( dest.getPosition().x - position.x  ) *ratio) + dest.getPosition().x;
        int newY = (int) (( dest.getPosition().y - position.y  ) *ratio) + dest.getPosition().y;
@@ -78,10 +80,23 @@ public class Soldier {
         if ( newDist < dest.getDiameter() ){
             arrived = true ;
         }
-        
     }
 
     public boolean isArrived() {
         return arrived;
     }
+
+    @Override
+    public String toString() {
+        return "{\n" 
+                + "team:" + team + ",\n"
+                + "posX:" + position.x + ",\n"
+                + "posY:" + position.y + ",\n"
+                + "destX:" + dest.getPosition().x + ",\n"
+                + "destY:" + dest.getPosition().y + ",\n"
+                + "strength:" + strenght +  "\n"
+                + "}";
+    }
+    
+    
 }

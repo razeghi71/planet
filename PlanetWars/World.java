@@ -20,19 +20,47 @@ public class World {
     
     Planet [] planets;
     ArrayList<Soldier> soldiers;
-    GraphicEngine engine;
     int width;
     int height;
     
-    public World (GraphicEngine engine){
+    public World (){
         parseMapFile("default.map");
-        this.engine = engine;
     }
     
-    public World(String map,GraphicEngine engine){
-        parseMapFile(map);
-        this.engine = engine;
-                
+    public World(String map){
+        parseMapFile(map);    
+    }
+    
+    public Planet[] getPlanets() {
+        return planets;
+    }
+
+    public void setPlanets(Planet[] planets) {
+        this.planets = planets;
+    }
+
+    public ArrayList<Soldier> getSoldiers() {
+        return soldiers;
+    }
+
+    public void setSoldiers(ArrayList<Soldier> soldiers) {
+        this.soldiers = soldiers;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
     
     private void parseMapFile (String map) {
@@ -68,9 +96,9 @@ public class World {
             soldiers = sc.nextInt();
             
             if ( team.equals("none") )
-                planets[i]=new Planet(dia, new Point(x, y), engine);
+                planets[i]=new Planet(dia, new Point(x, y));
             else
-                planets[i] = new Planet(dia, team2, soldiers, new Point(x, y), engine);
+                planets[i] = new Planet(dia, team2, soldiers, new Point(x, y));
         }
     }
     
@@ -136,6 +164,9 @@ public class World {
         String ret = "";
         for (int i = 0; i < planets.length; i++) {
             ret+=Integer.toString(i+1) + " : "+ planets[i].toString() + "\n";
+        }
+        for (int i = 0; i < soldiers.size(); i++) {
+            ret+=Integer.toString(i+1) + " : "+ soldiers.get(i).toString() + "\n";
         }
         return ret;
     }

@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 public class Game {
     private Socket socket[];
     private World world;
-    private GraphicEngine engine;
     
     /**
      * Game Class
@@ -28,7 +27,7 @@ public class Game {
      */
     public Game(int port, String map)  {
         this.socket = new Socket[2];
-        world = new World(map,engine);
+        world = new World(map);
        
         
         try {
