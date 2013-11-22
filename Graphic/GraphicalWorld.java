@@ -56,13 +56,13 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = new JButton();
         pl.setLayout(null);
         soldiers.put(soldier, pl);
-        int width = 2 * (int) (30 * Math.atan(soldier.getStrenght())) + 30;
+        int width = 2 * (int) (30 * Math.atan(soldier.getStrenght())) +5;
         int height = width;
         pl.setSize(width, height);
         pl.setLocation((int) (soldier.getPosition().getX() - width / 2), (int) (soldier.getPosition().getY() - height / 2));
         JLabel text = new JLabel();
         text.setHorizontalAlignment(SwingConstants.CENTER);
-        text.setText("<html><font color='white' face='Serif' size=" + pl.getX()/15 + ">" + soldier.getStrenght() + "</font></html>");
+        text.setText("<html><font color='black' face='Serif' size=" + pl.getWidth()/15 + ">" + soldier.getStrenght() + "</font></html>");
         text.setSize(pl.getWidth(), pl.getHeight() / 3);
         text.setLocation(0, pl.getHeight() / 3);
         pl.add(text);
@@ -85,7 +85,7 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = soldiers.get(soldier);
         pl.setLocation((int) (soldier.getPosition().getX() - pl.getWidth() / 2), (int) (soldier.getPosition().getY() - pl.getHeight() / 2));
         JLabel text = new JLabel();
-        text.setText("<html><font color='white' face='Serif' size=" + pl.getX()/15 + ">" + soldier.getStrenght() + "</font></html>");
+        text.setText("<html><font color='black' face='Serif' size=" + pl.getWidth()/15 + ">" + soldier.getStrenght() + "</font></html>");
 
         mainView.repaint();
     }
