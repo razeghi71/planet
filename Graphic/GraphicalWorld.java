@@ -1,8 +1,11 @@
 package Graphic;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
@@ -14,11 +17,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import PlanetWars.GraphicEngine;
 import PlanetWars.Planet;
@@ -49,15 +54,17 @@ public class GraphicalWorld implements GraphicEngine {
 
     public void addSoldier(Soldier soldier) {
         JButton pl = new JButton();
+        pl.setLayout(null);
         soldiers.put(soldier, pl);
         int width = 2 * (int) (30 * Math.atan(soldier.getStrenght())) + 30;
         int height = width;
         pl.setSize(width, height);
         pl.setLocation((int) (soldier.getPosition().getX() - width / 2), (int) (soldier.getPosition().getY() - height / 2));
         JLabel text = new JLabel();
-        text.setText("<html><font color='white'><font size=" + 15 + ">" + soldier.getStrenght() + "</font></html>");
-        text.setSize(pl.getWidth() / 3, pl.getHeight() / 3);
-        text.setLocation(pl.getWidth() / 3, pl.getHeight() / 3);
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setText("<html><font color='white' face='Serif' size=" + pl.getX()/15 + ">" + soldier.getStrenght() + "</font></html>");
+        text.setSize(pl.getWidth(), pl.getHeight() / 3);
+        text.setLocation(0, pl.getHeight() / 3);
         pl.add(text);
 
         ImageIcon imageForOne = null;
@@ -78,12 +85,8 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = soldiers.get(soldier);
         pl.setLocation((int) (soldier.getPosition().getX() - pl.getWidth() / 2), (int) (soldier.getPosition().getY() - pl.getHeight() / 2));
         JLabel text = new JLabel();
-        text.setText("<html><font color='white'><font size=" + 15 + ">" + soldier.getStrenght() + "</font></html>");
-        text.setSize(pl.getWidth() / 3, pl.getHeight() / 3);
-        text.setLocation(pl.getWidth() / 3, pl.getHeight() / 3);
-        pl.add(text);
+        text.setText("<html><font color='white' face='Serif' size=" + pl.getX()/15 + ">" + soldier.getStrenght() + "</font></html>");
 
-        mainView.add(pl);
         mainView.repaint();
     }
 
@@ -95,14 +98,16 @@ public class GraphicalWorld implements GraphicEngine {
 
     public void addPlanet(Planet planet) {
         JButton pl = new JButton();
+        pl.setLayout(null);
         planets.put(planet, pl);
         pl.setSize(planet.getDiameter(), planet.getDiameter());
         pl.setLocation((int) (planet.getPosition().getX() - planet.getDiameter() / 2), (int) (planet.getPosition().getY() - planet.getDiameter() / 2));
 
         JLabel text = new JLabel("" + planet.getNumerOfSoldiers());
-        text.setText("<html><font color='white'><font size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
-        text.setSize(pl.getWidth() / 3, pl.getHeight() / 3);
-        text.setLocation(pl.getWidth() / 3, pl.getHeight() / 3);
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
+        text.setSize(pl.getWidth() , pl.getHeight() / 3);
+        text.setLocation(0, pl.getHeight() / 3);
         pl.add(text);
 
         ImageIcon imageForOne = null;
@@ -129,7 +134,7 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = planets.get(planet);
 
         JLabel text = (JLabel) pl.getComponents()[0];
-        text.setText("<html><font color='white'><font size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
+        text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
         pl.add(text);
 
         ImageIcon imageForOne = null;
@@ -176,7 +181,7 @@ public class GraphicalWorld implements GraphicEngine {
 
     public void setSize(int width, int height) {
         window = new JFrame();
-        window.setSize(width, height);
+        window.setSize(width, height+50);
 
         makeMainView();
 
