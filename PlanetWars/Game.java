@@ -40,13 +40,14 @@ public class Game {
         
             Thread[] t = new Thread[2];
             for (int i = 0; i < 2; i++) {
+                final int localI = i ;
                 t[i] = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             Socket sock = ss.accept();
-//                            writer[i] = new PrintWriter(sock.getOutputStream());
-//                            reader[i] = new Scanner(sock.getInputStream());
+                            writer[localI] = new PrintWriter(sock.getOutputStream());
+                            reader[localI] = new Scanner(sock.getInputStream());
                         } catch (IOException ex) {
                             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                         }

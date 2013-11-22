@@ -23,6 +23,8 @@ public class Planet {
     public Planet(int diameter, Point position) {
         this.diameter = diameter;
         this.position = position;
+        this.owner = new Team("none");
+        this.numberOfSoldiers = 0;
     }
 
     public Planet(int diameter, Team owner, int numberOfSoldiers, Point position) {
