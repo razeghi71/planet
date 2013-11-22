@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Game {
     private PrintWriter writer[];
-    private Scanner reader[]
+    private Scanner reader[];
     private World world;
     
     /**
@@ -29,7 +29,8 @@ public class Game {
      * @param map map file
      */
     public Game(int port, String map,GraphicEngine engine)  {
-        this.socket = new Socket[2];
+        this.writer = new PrintWriter[2];
+        this.reader = new Scanner[2];
         
         world = new World(map,engine);
        
@@ -43,7 +44,9 @@ public class Game {
                     @Override
                     public void run() {
                         try {
-                            socket[0]= ss.accept();
+                            Socket sock = ss.accept();
+//                            writer[i] = new PrintWriter(sock.getOutputStream());
+//                            reader[i] = new Scanner(sock.getInputStream());
                         } catch (IOException ex) {
                             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                         }
