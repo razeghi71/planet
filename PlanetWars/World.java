@@ -25,13 +25,13 @@ public class World {
     GraphicEngine engine;
     
     public World (GraphicEngine engine){
-        parseMapFile("default.map");
         this.engine = engine;
+        parseMapFile("default.map");
     }
     
     public World(String map,GraphicEngine engine){
-        parseMapFile(map);    
         this.engine = engine;
+        parseMapFile(map);    
     }
     
     public Planet[] getPlanets() {
@@ -59,6 +59,7 @@ public class World {
     }
     
     private void parseMapFile (String map) {
+        
         FileInputStream inp;
         try {
             inp = new FileInputStream(map);
@@ -66,6 +67,7 @@ public class World {
             parseMapFile("default.map");
             return;
         }
+        
         Scanner sc = new Scanner(inp);
         
         setWidth(sc.nextInt()); 

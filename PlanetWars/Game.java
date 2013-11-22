@@ -31,7 +31,7 @@ public class Game {
     public Game(int port, String map,GraphicEngine engine)  {
         this.writer = new PrintWriter[2];
         this.reader = new Scanner[2];
-        
+
         world = new World(map,engine);
        
         
@@ -90,6 +90,11 @@ public class Game {
             
             
             world.Step();
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
