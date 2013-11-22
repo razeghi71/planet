@@ -120,10 +120,10 @@ public class World {
     }
     
     public boolean isGameFinished (){
-        
         for (int i = 1; i < planets.length ; i++) {
             if ( !planets[i].getOwner().equals(planets[i-1].getOwner()) )
-                return false;
+                if (!planets[i-1].getOwner().equals("none"))
+                    return false;
         }
         return true;
     }
@@ -177,7 +177,7 @@ public class World {
     public String toString(){
         String ret = "$";
         for (int i = 0; i < planets.length; i++) {
-            ret+=Integer.toString(i+1) + " : "+ planets[i].toString() + "\n";
+            ret+=Integer.toString(i+1) + ": "+ planets[i].toString() + "\n";
         }
         ret += "#";
         for (int i = 0; i < soldiers.size(); i++) {
