@@ -18,8 +18,7 @@ public interface GraphicEngine {
     void addPlanet ( Planet planet );
     void updatePlanet ( Planet planet ) ;
     
-    void setTeam1Name ( String name ) ;
-    void setTeam2Name ( String name ) ;
+    void setTeamNames ( String team1 , String team2 ) ;
     
     void setSize ( int width , int height );
 }
