@@ -79,7 +79,7 @@ public class Game {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    while (true) {
+                    while (!world.isGameFinished()) {
                         String msg = reader[localI].nextLine();
                         String[] parts = msg.split(" ");
                         if (parts.length == 3) {
@@ -103,7 +103,7 @@ public class Game {
             }).start();
         }
 
-        while (true) {
+        while (!world.isGameFinished()) {
                 String info = world.getCompleteWorldInfo();
                 Thread[] writerThread = new Thread[2];
                 for (int i = 0; i < 2; i++) {

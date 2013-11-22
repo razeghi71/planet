@@ -90,19 +90,19 @@ public class World {
         int y;
         int dia;
         String team;
-        int soldiers;
+        int nrSoldiers;
         
         for (int i = 0; i < numberOfPlanets; i++) {
             x = sc.nextInt();
             y = sc.nextInt();
             dia = sc.nextInt();
             team = sc.next();
-            soldiers = sc.nextInt();
+            nrSoldiers = sc.nextInt();
             
             if ( team.equals("none") )
                 planets[i]=new Planet(dia, new Point(x, y));
             else
-                planets[i] = new Planet(dia, new Team(team), soldiers, new Point(x, y));
+                planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y));
             engine.addPlanet(planets[i]);
         }
     }
