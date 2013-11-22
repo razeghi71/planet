@@ -54,10 +54,16 @@ public class GraphicalWorld implements GraphicEngine {
     }
     public void addPlanet ( Planet planet ) {
     	JButton pl = new JButton();
-//    	pl.setText("25");
     	planets.put(planet, pl);
     	pl.setSize(planet.getDiameter(), planet.getDiameter());
     	pl.setLocation(planet.getPosition());
+    	
+    	JLabel text=new JLabel(""+planet.getNumerOfSoldiers());
+    	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/8 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
+    	text.setSize(pl.getWidth()/2, pl.getHeight()/2);
+    	text.setLocation(pl.getWidth()/4, pl.getHeight()/4);
+    	pl.add(text);
+    	
     	ImageIcon imageForOne = null;
     	String color = "default";
     	if (planet.getOwner().getName().equals(team1)) {
@@ -80,6 +86,13 @@ public class GraphicalWorld implements GraphicEngine {
     public void updatePlanet ( Planet planet ) {
     	JButton pl = planets.get(planet);
     	pl.setLocation(planet.getPosition());
+    	
+    	JLabel text=(JLabel) pl.getComponents()[0];
+    	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/8 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
+    	text.setSize(pl.getWidth()/2, pl.getHeight()/2);
+    	text.setLocation(pl.getWidth()/4, pl.getHeight()/4);
+    	pl.add(text);
+    	
     	ImageIcon imageForOne = null;
     	String color = "default";
     	if (planet.getOwner().getName().equals(team1)) {
