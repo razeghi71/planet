@@ -1,6 +1,7 @@
 package Graphic;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -58,14 +59,20 @@ public class GraphicalWorld implements GraphicEngine {
         pl.setLocation((int) (soldier.getPosition().getX() - width / 2), (int) (soldier.getPosition().getY() - height / 2));
         JLabel text = new JLabel();
         text.setHorizontalAlignment(SwingConstants.CENTER);
-        text.setText("<html><font color='black' face='Serif' size=" + pl.getWidth()/15 + ">" + soldier.getStrenght() + "</font></html>");
+        text.setText("<html><font color='black'>" + soldier.getStrenght() + "</font></html>");
+        text.setFont(new Font("Arial Black", Font.BOLD, 15));
         text.setSize(pl.getWidth(), pl.getHeight() / 3);
         text.setLocation(0, pl.getHeight() / 3);
         pl.add(text);
-
+        String color = "";
+        if (soldier.getTeam().getName().equals(team1)) {
+            color = "red";
+        } else {
+            color = "blue";
+        }
         ImageIcon imageForOne = null;
         try {
-            imageForOne = new ImageIcon(rotate(resize(ImageIO.read(getClass().getResource("/resources/Spaceship.png")), width, height), soldier.getPosition(), soldier.getDest().getPosition()));
+            imageForOne = new ImageIcon(rotate(resize(ImageIO.read(getClass().getResource("/resources/Spaceship_"+ color+ ".png")), width, height), soldier.getPosition(), soldier.getDest().getPosition()));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -81,7 +88,7 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = soldiers.get(soldier);
         pl.setLocation((int) (soldier.getPosition().getX() - pl.getWidth() / 2), (int) (soldier.getPosition().getY() - pl.getHeight() / 2));
         JLabel text = new JLabel();
-        text.setText("<html><font color='black' face='Serif' size=" + pl.getWidth()/15 + ">" + soldier.getStrenght() + "</font></html>");
+        text.setText("<html><font color='black'>" + soldier.getStrenght() + "</font></html>");
 
         mainView.repaint();
     }
