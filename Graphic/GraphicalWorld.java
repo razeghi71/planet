@@ -3,9 +3,12 @@ package Graphic;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,10 +48,43 @@ public class GraphicalWorld implements GraphicEngine {
 	}
 	
 	public void addSoldier ( Soldier soldier ) {
-		
+		JButton pl = new JButton();
+    	soldiers.put(soldier, pl);
+    	int width = 2*(int)(30*Math.atan(soldier.getStrenght())) + 30;
+    	int height = width;
+    	pl.setSize(width,height );
+    	pl.setLocation((int)(soldier.getPosition().getX()-width/2), (int)(soldier.getPosition().getY()-height/2));
+    	System.out.println(pl.getLocation());
+    	JLabel text=new JLabel();
+    	text.setText("<html><font color='white'><font size="+ 15 +">"+ soldier.getStrenght() +"</font></html>");
+    	text.setSize(pl.getWidth()/3, pl.getHeight()/3);
+    	text.setLocation(pl.getWidth()/3, pl.getHeight()/3);
+    	pl.add(text);
+    	
+    	ImageIcon imageForOne = null;
+		try {
+			imageForOne = new ImageIcon(rotate( resize(ImageIO.read(getClass().getResource("/resources/Spaceship.png")), width, height), soldier.getPosition(), soldier.getDest().getPosition()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	pl.setIcon(imageForOne);
+    	pl.setBorderPainted(false);
+    	pl.setContentAreaFilled(false);
+    	mainView.add(pl);
+    	mainView.repaint();
 	}
     public void updateSoldier ( Soldier soldier ) {
-    	
+    	JButton pl = soldiers.get(soldier);
+    	pl.setLocation((int)(soldier.getPosition().getX() - pl.getWidth()/2), (int)(soldier.getPosition().getY() - pl.getHeight()/2));
+    	JLabel text=new JLabel();
+    	text.setText("<html><font color='white'><font size="+ 15 +">"+ soldier.getStrenght() +"</font></html>");
+    	text.setSize(pl.getWidth()/3, pl.getHeight()/3);
+    	text.setLocation(pl.getWidth()/3, pl.getHeight()/3);
+    	pl.add(text);
+
+    	mainView.add(pl);
+    	mainView.repaint();
     }
     public void destroySoldier (Soldier soldier ){
     	
@@ -57,7 +93,7 @@ public class GraphicalWorld implements GraphicEngine {
     	JButton pl = new JButton();
     	planets.put(planet, pl);
     	pl.setSize(planet.getDiameter(), planet.getDiameter());
-    	pl.setLocation(planet.getPosition());
+    	pl.setLocation((int)(planet.getPosition().getX() - planet.getDiameter()/2), (int)(planet.getPosition().getY() - planet.getDiameter()/2));
     	
     	JLabel text=new JLabel(""+planet.getNumerOfSoldiers());
     	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/15 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
@@ -86,12 +122,9 @@ public class GraphicalWorld implements GraphicEngine {
     }
     public void updatePlanet ( Planet planet ) {
     	JButton pl = planets.get(planet);
-    	pl.setLocation(planet.getPosition());
     	
     	JLabel text=(JLabel) pl.getComponents()[0];
     	text.setText("<html><font color='white'><font size="+ planet.getDiameter()/15 +">"+ planet.getNumerOfSoldiers() +"</font></html>");
-    	text.setSize(pl.getWidth()/3, pl.getHeight()/3);
-    	text.setLocation(pl.getWidth()/3, pl.getHeight()/3);
     	pl.add(text);
     	
     	ImageIcon imageForOne = null;
@@ -144,15 +177,16 @@ public class GraphicalWorld implements GraphicEngine {
 	
 		makeMainView();
 		
-//		window.addWindowStateListener(new WindowStateListener() {
-//
-//	        public void windowStateChanged(WindowEvent arg0) {
-//	            if (arg0.getNewState() == JFrame.ICONIFIED) {
-//	            	window.repaint();
-//	            }
-//
-//	        }
-//	    });
+		window.addWindowStateListener(new WindowStateListener() {
+
+	        public void windowStateChanged(WindowEvent arg0) {
+	            if (arg0.getNewState() == JFrame.ICONIFIED) {
+	            	window.repaint();
+	            	mainView.repaint();
+	            }
+
+	        }
+	    });
 		
 		window.setResizable(false);
 		window.setLayout(null);
@@ -169,6 +203,24 @@ public class GraphicalWorld implements GraphicEngine {
         g2d.drawImage(image, 0, 0, width, height, null);
         g2d.dispose();
         return bi;
+    }
+    
+    public BufferedImage rotate(BufferedImage bufferedImage, Point A, Point B) {
+    	double radians;
+    	if (A.x == B.x) {
+    		if (A.y > B.y) {
+    			radians = -Math.PI/2;
+    		} else {
+    			radians = Math.PI/2;
+    		}
+    	} else  {
+
+    		radians = Math.atan((float)(A.y - B.y)/(float)(A.x - B.x));
+    	}
+    	AffineTransform transform = new AffineTransform();
+        transform.rotate(radians, bufferedImage.getWidth()/2, bufferedImage.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(bufferedImage, null);
     }
 	
 }
