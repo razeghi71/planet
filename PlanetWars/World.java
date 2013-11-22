@@ -171,13 +171,14 @@ public class World {
     
     @Override
     public String toString(){
-        String ret = "";
+        String ret = "$";
         for (int i = 0; i < planets.length; i++) {
             ret+=Integer.toString(i+1) + " : "+ planets[i].toString() + "\n";
         }
         for (int i = 0; i < soldiers.size(); i++) {
             ret+=soldiers.get(i).toString() + "\n";
         }
+        ret+="$";
         return ret;
     }
 }

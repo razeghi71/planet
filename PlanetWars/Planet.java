@@ -18,6 +18,7 @@ public class Planet {
     private Team owner ;
     private int numberOfSoldiers = 0;
     private Point position;
+    public static int SoldierCreateRate = 10 ;
     
     public Planet(int diameter, Point position) {
         this.diameter = diameter;
@@ -31,7 +32,7 @@ public class Planet {
         this.position = position;
     }
     
-    public double getDiameter() {
+    public int getDiameter() {
         return diameter;
     }    
 
@@ -61,7 +62,9 @@ public class Planet {
     
 
     public void Step(){
-        
+        if ( !this.owner.getName().equals("none") ) {
+            this.numberOfSoldiers+=this.diameter/SoldierCreateRate;
+        }
     }
     
     @Override

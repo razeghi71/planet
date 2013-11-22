@@ -7,8 +7,10 @@
 package PlanetWars;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +19,8 @@ import java.util.logging.Logger;
  * @author mohammad
  */
 public class Game {
-    private Socket socket[];
+    private PrintWriter writer[];
+    private Scanner reader[]
     private World world;
     
     /**
@@ -27,8 +30,6 @@ public class Game {
      */
     public Game(int port, String map,GraphicEngine engine)  {
         this.socket = new Socket[2];
-        
-        
         
         world = new World(map,engine);
        
@@ -66,9 +67,19 @@ public class Game {
      * Run Game
      */
     public void run ( ){
+        
         while (true){
             String info = world.getCompleteWorldInfo();
-            // Send Info and then recive decison 
+            Thread[] t = new Thread[2];
+            for (int i = 0; i < 2; i++) {
+                t[i] = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        
+                    }
+                });
+                t[i].run();
+            }
             
         }
     }
