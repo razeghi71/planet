@@ -89,7 +89,7 @@ public class Soldier {
     public String toString() {
         return "{\n" 
                 + "num: " + number + ",\n"
-                + "team: " + team + ",\n"
+                + "team: " + team.getName() + ",\n"
                 + "posX: " + position.x + ",\n"
                 + "posY: " + position.y + ",\n"
                 + "destX: " + dest.getPosition().x + ",\n"

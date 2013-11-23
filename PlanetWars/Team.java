@@ -10,7 +10,8 @@ public class Team {
     /**
      * Team Class Constructor ... 
      * @param name set team name
-     */
+     */    
+
     public Team(String name) {
         setName(name);
     }
@@ -30,5 +31,4 @@ public class Team {
     public void setName(String name) {
         this.name = name;
     }
-
 }
