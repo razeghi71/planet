@@ -171,8 +171,8 @@ public class World {
             if ( sol.isArrived() ){
                 int nr = soldiers.get(i).getStrenght();
                 int nrOfCurrentSolsInDest = sol.getDest().getNumerOfSoldiers();
-                if ( sol.getTeam().equals(sol.getDest().getOwner()) 
-                        || sol.getDest().getOwner().equals("none") ){
+                if ( sol.getTeam().getName().equals(sol.getDest().getOwner().getName()) 
+                        || sol.getDest().getOwner().getName().equals("none") ){
                    sol.getDest().setNumerOfSoldiers(nr+nrOfCurrentSolsInDest);
                 } else {
                     int newNumber = nrOfCurrentSolsInDest - nr ;
