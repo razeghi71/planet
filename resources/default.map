@@ -1,6 +1,9 @@
-600 400
+800 800
 mammad
 soheil
-2
-100 200 40 mammad 10
-500 200 40 soheil 10
+5
+200 200 70 mammad 10
+400 600 70 mammad 10
+400 200 70 soheil 10
+600 600 70 soheil 10
+400 400 40 none 0
