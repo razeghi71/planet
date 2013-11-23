@@ -161,22 +161,9 @@ public class GraphicalWorld implements GraphicEngine {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
-//        panel.setBackground(Color.green);
         panel.setLocation(0, 0);
         panel.setSize(window.getWidth(), 50);
         window.add(panel);
-
-//        JLabel title1 = new JLabel();
-//        title1.setLocation(window.getWidth() / 4 - 50, 5);
-//        title1.setSize(100, 15);
-//        title1.setText("<html><font color='red'>" + team1 + "</font></html>");
-//        panel.add(title1);
-//
-//        JLabel title2 = new JLabel();
-//        title2.setLocation(3 * window.getWidth() / 4 - 50, 5);
-//        title2.setSize(100, 15);
-//        title2.setText("<html><font color='blue'>" + team2 + "</font></html>");
-//        panel.add(title2);
         
         JLabel title1 = new JLabel();
         title1.setOpaque(true);
