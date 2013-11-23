@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package PlanetWars;
 
 import java.awt.Point;  
@@ -62,6 +56,9 @@ public class Soldier {
         this.strenght = strenght;
     }  
     
+    /**
+     * Calculate new pos of soldier
+     */
     public void setNewPos(){
        // Using Tales To Calc New Pos Based On Speed
        double dist = Math.sqrt ( ( position.x - dest.getPosition().x )*( position.x - dest.getPosition().x ) 

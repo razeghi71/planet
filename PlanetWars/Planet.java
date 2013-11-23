@@ -56,7 +56,9 @@ public class Planet {
         this.position = position;
     }
     
-
+    /**
+     * add number of Soldiers based on diameter
+     */
     public void Step(){
         if ( !this.owner.getName().equals("none") ) {
             this.numberOfSoldiers+=this.diameter/SoldierCreateRate;

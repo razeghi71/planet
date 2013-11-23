@@ -55,6 +55,10 @@ public class World {
         this.height = height;
     }
     
+    /**
+     * parse an input map file
+     * @param map map file to parse
+     */
     private void parseMapFile (String map) {
         
         FileInputStream inp;
@@ -101,6 +105,12 @@ public class World {
         }
     }
     
+    /**
+     * send nr soldier from planet1 to planet2
+     * @param planet1 planet to send soldiers from
+     * @param planet2 planet to send soldiers to
+     * @param nr number of soldiers to send
+     */
     public void sendSoldier( int planet1 , int planet2, int nr){
         if ( planet1 >= planets.length || planet2 >= planets.length )
             return;
@@ -119,6 +129,10 @@ public class World {
         engine.addSoldier(newSoldier);
     }
     
+    /**
+     * 
+     * @return true if game is finished
+     */
     public boolean isGameFinished (){
         for (int i = 1; i < planets.length ; i++) {
             if ( !planets[i].getOwner().equals(planets[i-1].getOwner()) )
@@ -128,11 +142,17 @@ public class World {
         return true;
     }
 
+    /**
+     * 
+     * @return complete world info to send to clients
+     */
     public String getCompleteWorldInfo (){
         return toString();
     }
     
-    
+    /**
+     * Step Simulation To Next Step
+     */
     public void Step(){
         for (int i = 0; i < planets.length; i++) {
             planets[i].Step();
