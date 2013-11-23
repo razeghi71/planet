@@ -25,12 +25,10 @@ import javax.swing.SwingConstants;
 import PlanetWars.GraphicEngine;
 import PlanetWars.Planet;
 import PlanetWars.Soldier;
-import PlanetWars.World;
 
 public class GraphicalWorld implements GraphicEngine {
 
     private JFrame window;
-    private World world;
     private ImagePanel mainView;
     private HashMap<Planet, JButton> planets;
     private HashMap<Soldier, JButton> soldiers;
@@ -163,21 +161,43 @@ public class GraphicalWorld implements GraphicEngine {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(Color.green);
+//        panel.setBackground(Color.green);
         panel.setLocation(0, 0);
         panel.setSize(window.getWidth(), 50);
         window.add(panel);
 
+//        JLabel title1 = new JLabel();
+//        title1.setLocation(window.getWidth() / 4 - 50, 5);
+//        title1.setSize(100, 15);
+//        title1.setText("<html><font color='red'>" + team1 + "</font></html>");
+//        panel.add(title1);
+//
+//        JLabel title2 = new JLabel();
+//        title2.setLocation(3 * window.getWidth() / 4 - 50, 5);
+//        title2.setSize(100, 15);
+//        title2.setText("<html><font color='blue'>" + team2 + "</font></html>");
+//        panel.add(title2);
+        
         JLabel title1 = new JLabel();
-        title1.setLocation(window.getWidth() / 4 - 50, 5);
-        title1.setSize(100, 15);
-        title1.setText("<html><font color='red'>" + team1 + "</font></html>");
+        title1.setOpaque(true);
+        title1.setFont(new Font("Serif", Font.BOLD, 20));
+        title1.setLocation(0, 0);
+        title1.setSize(window.getWidth()/2, 50);
+        title1.setHorizontalAlignment(SwingConstants.CENTER);
+        title1.setVerticalAlignment(SwingConstants.CENTER);
+        title1.setBackground(Color.red);
+        title1.setText("<html><font color='white'>" + team1 + "</font></html>");
         panel.add(title1);
 
         JLabel title2 = new JLabel();
-        title2.setLocation(3 * window.getWidth() / 4 - 50, 5);
-        title2.setSize(100, 15);
-        title2.setText("<html><font color='blue'>" + team2 + "</font></html>");
+        title2.setOpaque(true);
+        title2.setFont(new Font("Serif", Font.BOLD, 20));
+        title2.setLocation(window.getWidth()/2, 0);
+        title2.setSize(window.getWidth()/2, 50);
+        title2.setHorizontalAlignment(SwingConstants.CENTER);
+        title2.setVerticalAlignment(SwingConstants.CENTER);
+        title2.setBackground(Color.blue);
+        title2.setText("<html><font color='white'>" + team2 + "</font></html>");
         panel.add(title2);
         window.repaint();
     }
