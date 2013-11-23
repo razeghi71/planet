@@ -88,12 +88,12 @@ public class Soldier {
     @Override
     public String toString() {
         return "{\n" 
-                + "num: " + number + ",\n"
-                + "team: " + team.getName() + ",\n"
-                + "posX: " + position.x + ",\n"
-                + "posY: " + position.y + ",\n"
-                + "destX: " + dest.getPosition().x + ",\n"
-                + "destY: " + dest.getPosition().y + ",\n"
+                + "num: " + number + " ,\n"
+                + "team: " + team.getName() + " ,\n"
+                + "posX: " + position.x + " ,\n"
+                + "posY: " + position.y + " ,\n"
+                + "destX: " + dest.getPosition().x + " ,\n"
+                + "destY: " + dest.getPosition().y + " ,\n"
                 + "strength: " + strenght +  "\n"
                 + "}";
     }

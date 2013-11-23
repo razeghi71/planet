@@ -68,10 +68,10 @@ public class Planet {
     @Override
     public String toString(){
         return "{\n"
-                + "dia: " + Integer.toString(diameter)  + ",\n"
-                + "owner: " + owner.getName() + ",\n"
-                + "soldiers: " + Integer.toString(numberOfSoldiers) + ",\n"
-                + "x: " + Integer.toString(position.x) + ",\n"
+                + "dia: " + Integer.toString(diameter)  + " ,\n"
+                + "owner: " + owner.getName() + " ,\n"
+                + "soldiers: " + Integer.toString(numberOfSoldiers) + " ,\n"
+                + "x: " + Integer.toString(position.x) + " ,\n"
                 + "y: " + Integer.toString(position.y) + "\n"
                 + "}"
                 ;
