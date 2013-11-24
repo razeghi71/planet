@@ -12,7 +12,7 @@ public class Soldier {
     private int strenght;
     private long number ; 
 
-    public static int soldierSpeed =  8;
+    public static int soldierSpeed =  10;
     
     private boolean arrived = false;
     
