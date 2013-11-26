@@ -93,8 +93,9 @@ public class GraphicalWorld implements GraphicEngine {
 
     public void destroySoldier (Soldier soldier){
     	JButton s = soldiers.get(soldier);
-    	mainView.remove(s);
-    	soldiers.remove(soldier);
+
+        mainView.remove(s);
+        soldiers.remove(soldier);
     }
 
     public void addPlanet(Planet planet) {

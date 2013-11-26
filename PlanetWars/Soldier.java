@@ -67,7 +67,6 @@ public class Soldier {
        
        double ratio = dist/soldierSpeed;
        
-       
        int newX = (int) (( dest.getPosition().x - position.x  ) /ratio) + position.x;
        int newY = (int) (( dest.getPosition().y - position.y  ) /ratio) + position.y;
        
