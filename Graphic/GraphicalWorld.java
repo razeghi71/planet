@@ -325,12 +325,11 @@ public class GraphicalWorld implements GraphicEngine {
 	@Override
 	public void setGameInfo(int team1Soldiers, int team2Soldiers) {
 		// TODO Auto-generated method stub
-		System.out.println(team1Soldiers + " " + team2Soldiers);
 		double p1_d = (double)(team1Soldiers)/(team1Soldiers + team2Soldiers);
-		team1_soldiers.setBounds(0, 40,(int)(window.getWidth()*p1_d/2), 10);
+		team1_soldiers.setBounds(0, 45,(int)(window.getWidth()*p1_d/2), 5);
 		
 		double p2_d = (double)(team2Soldiers)/(team1Soldiers + team2Soldiers);
-		team2_soldiers.setBounds(window.getWidth()/2, 40,(int)(window.getWidth()*p2_d/2), 10);
+		team2_soldiers.setBounds(window.getWidth()/2, 45,(int)(window.getWidth()*p2_d/2), 5);
 		
 		infoBar.repaint();
 		
@@ -346,15 +345,23 @@ public class GraphicalWorld implements GraphicEngine {
 	@Override
 	public void setClock(int clock) {
 		// TODO Auto-generated method stub
-		
+		double c = (double)(maxClock - clock)/maxClock;
+		time.setBackground(new Color(0,(int)(c*255),0));
+		time.setSize((int)(c*window.getWidth()), 10);
+		infoBar.repaint();
 	}
 
 	@Override
 	public void setMaxClock(int max) {
 		// TODO Auto-generated method stub
 		this.maxClock = max;
+		time = new JLabel();
+		time.setBackground(Color.green);
+		time.setOpaque(true);
+		time.setBounds(0, 0, window.getWidth(), 10);
+		infoBar.add(time, 1);
+		infoBar.repaint();
 	}
-
 }
 
 class ImagePanel extends JPanel {
