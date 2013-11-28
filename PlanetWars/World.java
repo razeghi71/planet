@@ -99,9 +99,9 @@ public class World {
             nrSoldiers = sc.nextInt();
 
             if (team.equals("none")) {
-                planets[i] = new Planet(dia, new Point(x, y));
+                planets[i] = new Planet(dia, new Point(x, y),i);
             } else {
-                planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y));
+                planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y),i);
             }
             engine.addPlanet(planets[i]);
         }
@@ -222,7 +222,7 @@ public class World {
     public String toString() {
         String ret = "$";
         for (int i = 0; i < planets.length; i++) {
-            ret += Integer.toString(i + 1) + ": " + planets[i].toString() + "\n";
+            ret += planets[i].toString() + "\n";
         }
         ret += "#";
         for (int i = 0; i < soldiers.size(); i++) {

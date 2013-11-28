@@ -8,24 +8,27 @@ import java.awt.Point;
  * @author mohammad
  */
 public class Planet {
+    private int id  = 0;
     private int diameter;
     private Team owner ;
     private int numberOfSoldiers = 0;
     private Point position;
     public static int SoldierCreateRate = 30 ;
     
-    public Planet(int diameter, Point position) {
+    public Planet(int diameter, Point position, int id) {
         this.diameter = diameter;
         this.position = position;
         this.owner = new Team("none");
         this.numberOfSoldiers = 0;
+        this.id = id;
     }
 
-    public Planet(int diameter, Team owner, int numberOfSoldiers, Point position) {
+    public Planet(int diameter, Team owner, int numberOfSoldiers, Point position,int id) {
         this.diameter = diameter;
         this.owner = owner;
         this.numberOfSoldiers = numberOfSoldiers;
         this.position = position;
+        this.id = id;
     }
     
     public int getDiameter() {
@@ -64,10 +67,20 @@ public class Planet {
             this.numberOfSoldiers+=this.diameter/SoldierCreateRate;
         }
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
     @Override
     public String toString(){
         return "{\n"
+                + "id: " + Integer.toString(id)  + " ,\n"
                 + "dia: " + Integer.toString(diameter)  + " ,\n"
                 + "owner: " + owner.getName() + " ,\n"
                 + "soldiers: " + Integer.toString(numberOfSoldiers) + " ,\n"

@@ -91,11 +91,10 @@ public class Soldier {
                 + "team: " + team.getName() + " ,\n"
                 + "posX: " + position.x + " ,\n"
                 + "posY: " + position.y + " ,\n"
-                + "destX: " + dest.getPosition().x + " ,\n"
-                + "destY: " + dest.getPosition().y + " ,\n"
+                + "dest: " + dest.getId() + " ,\n"
                 + "strength: " + strenght +  "\n"
                 + "}";
     }
     
-    
+   
 }
