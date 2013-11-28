@@ -130,8 +130,6 @@ public class World {
 
         p1.setNumerOfSoldiers(nrOfCurrentSolInPlanets - nr);
         Soldier newSoldier = new Soldier(p1.getOwner(), p1.getPosition(), p2, nr, soldierNum++);
-//        System.out.println("add : " + p1.getOwner().getName() + " " + p1.getPosition() 
-//                + " " + p2.getOwner().getName() + " " + nr);
         synchronized (soldiers) {
             soldiers.add(newSoldier);
             engine.addSoldier(newSoldier);
@@ -143,13 +141,11 @@ public class World {
      * @return true if game is finished
      */
     public boolean isGameFinished() {
-        for (int i = 1; i < planets.length; i++) {
-            if (!planets[i].getOwner().equals(planets[i - 1].getOwner())) {
-                if (!planets[i - 1].getOwner().equals("none")) {
+        for (int i = 1; i < planets.length; i++)
+            if (!planets[i].getOwner().getName().equals(planets[i - 1].getOwner().getName()))
+                if (!planets[i - 1].getOwner().getName().equals("none")) 
                     return false;
-                }
-            }
-        }
+
         return true;
     }
 
@@ -169,16 +165,13 @@ public class World {
             planets[i].Step();
             engine.updatePlanet(planets[i]);
         }
-            for (int i = 0; i < soldiers.size(); i++) {
-                synchronized (soldiers) {
-                    soldiers.get(i).setNewPos();
-                }
-                engine.updateSoldier(soldiers.get(i));
+        for (int i = 0; i < soldiers.size(); i++) {
+            synchronized (soldiers) {
+                soldiers.get(i).setNewPos();
             }
-
-            destroyUselessSoldiers();
-        
-
+            engine.updateSoldier(soldiers.get(i));
+        }
+        destroyUselessSoldiers();
     }
 
     public void destroyUselessSoldiers() {

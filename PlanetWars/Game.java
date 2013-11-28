@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ public class Game {
 
     private PrintWriter writer[];
     private Scanner reader[];
+    private Socket sock[];
     private World world;
     private String teams[] = new String[2];
 
@@ -28,7 +30,7 @@ public class Game {
     public Game(int port, String map, GraphicEngine engine) {
         this.writer = new PrintWriter[2];
         this.reader = new Scanner[2];
-
+        this.sock = new Socket[2];
         world = new World(map, engine);
 
         try {
@@ -41,16 +43,16 @@ public class Game {
                     @Override
                     public void run() {
                         try {
-                            Socket sock = ss.accept();
-                            writer[localI] = new PrintWriter(sock.getOutputStream());
-                            reader[localI] = new Scanner(sock.getInputStream());
+                            sock[localI] = ss.accept();
+                            writer[localI] = new PrintWriter(sock[localI].getOutputStream());
+                            reader[localI] = new Scanner(sock[localI].getInputStream());
                             teams[localI] = reader[localI].next();
                         } catch (IOException ex) {
                             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 });
-                t[i].run();
+                t[i].start();
             }
 
             t[0].join();
@@ -76,7 +78,12 @@ public class Game {
                 @Override
                 public void run() {
                     while (!world.isGameFinished()) {
-                        String msg = reader[localI].nextLine();
+                        String msg;
+                        try {
+                            msg = reader[localI].nextLine();
+                        } catch (NoSuchElementException exp) {
+                            break;
+                        }
                         String[] parts = msg.split(" ");
                         if (parts.length == 3) {
                             try {
@@ -102,10 +109,11 @@ public class Game {
         }
 
         new Thread(new Runnable() {
-
             @Override
             public void run() {
                 while (!world.isGameFinished()) {
+//                    System.out.println(world.isGameFinished());
+
                     String info = world.getCompleteWorldInfo();
                     Thread[] writerThread = new Thread[2];
                     for (int i = 0; i < 2; i++) {
@@ -144,10 +152,15 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         for (int i = 0; i < 2; i++) {
             writer[i].println("%");
             writer[i].flush();
+            try {
+                sock[i].close();
+            } catch (IOException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }
 }
