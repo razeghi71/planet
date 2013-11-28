@@ -86,7 +86,7 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = soldiers.get(soldier);
         pl.setLocation((int) (soldier.getPosition().getX() - pl.getWidth() / 2), (int) (soldier.getPosition().getY() - pl.getHeight() / 2));
         JLabel text = new JLabel();
-        text.setText( + soldier.getStrenght() + "");
+        text.setText(soldier.getStrenght() + "");
 
         mainView.repaint();
     }
@@ -111,6 +111,7 @@ public class GraphicalWorld implements GraphicEngine {
         text.setSize(pl.getWidth() , pl.getHeight() / 3);
         text.setLocation(0, pl.getHeight() / 3);
         pl.add(text);
+        pl.setName(planet.getOwner().getName());
 
         ImageIcon imageForOne = null;
         String color = "default";
@@ -139,20 +140,25 @@ public class GraphicalWorld implements GraphicEngine {
         text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
         pl.add(text);
 
-        ImageIcon imageForOne = null;
-        String color = "default";
-        if (planet.getOwner().getName().equals(team1)) {
-            color = "red";
-        } else if (planet.getOwner().getName().equals(team2)) {
-            color = "blue";
+        
+        if (!planet.getOwner().getName().equals(pl.getName())) {
+        	ImageIcon imageForOne = null;
+            String color = "default";
+            if (planet.getOwner().getName().equals(team1)) {
+                color = "red";
+            } else if (planet.getOwner().getName().equals(team2)) {
+                color = "blue";
+            }
+            try {
+                imageForOne = new ImageIcon(resize(ImageIO.read(getClass().getResource("/resources/Planet_" + color + ".png")), planet.getDiameter(), planet.getDiameter()));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            pl.setIcon(imageForOne);
+            pl.setName(planet.getOwner().getName());
         }
-        try {
-            imageForOne = new ImageIcon(resize(ImageIO.read(getClass().getResource("/resources/Planet_" + color + ".png")), planet.getDiameter(), planet.getDiameter()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        pl.setIcon(imageForOne);
+        
         mainView.repaint();
     }
 
