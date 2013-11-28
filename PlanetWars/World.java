@@ -99,10 +99,10 @@ public class World {
             nrSoldiers = sc.nextInt();
 
             if (team.equals("none")) {
-                planets[i] = new Planet(dia, new Point(x, y),i);
+                planets[i] = new Planet(dia, new Point(x, y),i+1);
             }
             else {
-                planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y),i);
+                planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y),i+1);
             }
             engine.addPlanet(planets[i]);
         }
@@ -233,7 +233,7 @@ public class World {
         for (int i = 1; i < planets.length; i++)
             if ( planets[i].getOwner().getName().equals(team) )
                 c+=planets[i].getNumerOfSoldiers();
-        return c;
+        return c;   
     }
 
     @Override
