@@ -161,7 +161,7 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        engine.gameFinishedEvent(world.getWinner());
+        engine.gameFinishedEvent("Game Finished :) ");
         for (int i = 0; i < 2; i++) {
             writer[i].println("%");
             writer[i].flush();

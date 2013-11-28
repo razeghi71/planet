@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -12,22 +14,27 @@ import java.util.Scanner;
  */
 public class World {
 
-    Planet[] planets;
-    ArrayList<Soldier> soldiers;
-    int width;
-    int height;
-    GraphicEngine engine;
-    long soldierNum = 0;
+    
+    private Planet[] planets;
+    private ArrayList<Soldier> soldiers;
+    private int width;
+    private int height;
+    private GraphicEngine engine;
+    private long soldierNum = 0;
+    private int time = 0;
+    private int maxTime = 3600 ;
 
     public World(GraphicEngine engine) {
         this.engine = engine;
         this.soldiers = new ArrayList<Soldier>();
+        engine.setMaxClock(maxTime);
         parseMapFile("default.map");
     }
 
     public World(String map, GraphicEngine engine) {
         this.soldiers = new ArrayList<Soldier>();
         this.engine = engine;
+        engine.setMaxClock(maxTime);
         parseMapFile(map);
     }
 
@@ -142,6 +149,8 @@ public class World {
      * @return true if game is finished
      */
     public boolean isGameFinished() {
+        if (time > maxTime)
+            return true;
         for (int i = 1; i < planets.length; i++)
             if (!planets[i].getOwner().getName().equals(planets[i - 1].getOwner().getName()))
                 if (!planets[i - 1].getOwner().getName().equals("none") && 
@@ -178,6 +187,8 @@ public class World {
             engine.updateSoldier(soldiers.get(i));
         }
         destroyUselessSoldiers();
+        time++;
+        engine.setClock(time);
     }
 
     public void destroyUselessSoldiers() {
@@ -191,7 +202,7 @@ public class World {
                 double dist = Math.sqrt ( (position.x - sol.getPosition().x )*( position.x - sol.getPosition().x ) 
                + ( position.y - sol.getPosition().y )*( position.y - sol.getPosition().y ) ) ;
                 
-                if ( dist < planets[j].getDiameter())
+                if ( dist < planets[j].getDiameter()/2.0 )
                 {
                     engine.destroySoldier(sol);
                     soldiers.remove(sol);
@@ -221,14 +232,6 @@ public class World {
                 soldiers.remove(sol);
             }
         }
-    }
-    
-    public String getWinner(){
-        for (int i = 1; i < planets.length; i++)
-            if ( !planets[i].getOwner().getName().equals("none") && 
-                    !planets[i].getOwner().getName().equals("Blackhole"))
-                return planets[i].getOwner().getName();
-        return "none";
     }
     
     public int getNumberOfSoldiers (String team){

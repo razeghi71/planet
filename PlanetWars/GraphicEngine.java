@@ -25,4 +25,7 @@ public interface GraphicEngine {
     
     void setGameInfo (  int team1Soldiers , int team2Soldiers  );
     void gameFinishedEvent (String team);
+
+    void setClock ( int clock );
+    void setMaxClock ( int max);
 }
