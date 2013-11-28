@@ -134,9 +134,8 @@ public class World {
 //                + " " + p2.getOwner().getName() + " " + nr);
         synchronized (soldiers) {
             soldiers.add(newSoldier);
+            engine.addSoldier(newSoldier);
         }
-        engine.addSoldier(newSoldier);
-
     }
 
     /**
@@ -170,14 +169,15 @@ public class World {
             planets[i].Step();
             engine.updatePlanet(planets[i]);
         }
-        for (int i = 0; i < soldiers.size(); i++) {
-            synchronized (soldiers) {
-                soldiers.get(i).setNewPos();
+            for (int i = 0; i < soldiers.size(); i++) {
+                synchronized (soldiers) {
+                    soldiers.get(i).setNewPos();
+                }
+                engine.updateSoldier(soldiers.get(i));
             }
-            engine.updateSoldier(soldiers.get(i));
-        }
 
-        destroyUselessSoldiers();
+            destroyUselessSoldiers();
+        
 
     }
 
@@ -204,6 +204,7 @@ public class World {
                 }
                 engine.updatePlanet(sol.getDest());
                 engine.destroySoldier(sol);
+
                 soldiers.remove(sol);
             }
         }
