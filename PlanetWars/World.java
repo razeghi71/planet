@@ -145,7 +145,9 @@ public class World {
         for (int i = 1; i < planets.length; i++)
             if (!planets[i].getOwner().getName().equals(planets[i - 1].getOwner().getName()))
                 if (!planets[i - 1].getOwner().getName().equals("none") && 
-                        !planets[i - 1].getOwner().getName().equals("Blackhole")) 
+                        !planets[i - 1].getOwner().getName().equals("Blackhole") &&
+                        !planets[ i ].getOwner().getName().equals("none") &&
+                        !planets[ i ].getOwner().getName().equals("Blackhole")) 
                     return false;
         return true;
     }
