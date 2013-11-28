@@ -20,6 +20,10 @@ public class Game {
     private Socket sock[];
     private World world;
     private String teams[] = new String[2];
+    private int updateCycle = 50;
+    private int messgeCycle = 1000;
+    
+    
 
     /**
      * Game Class
@@ -98,7 +102,7 @@ public class Game {
                             }
                         }
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(messgeCycle);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -136,7 +140,7 @@ public class Game {
                     }
 
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(messgeCycle);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -147,7 +151,7 @@ public class Game {
         while (!world.isGameFinished()) {
             world.Step();
             try {
-                Thread.sleep(50);
+                Thread.sleep(updateCycle);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
