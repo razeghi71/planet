@@ -139,8 +139,7 @@ public class Game {
 
         while (!world.isGameFinished()) {
             world.Step();
-            engine.setGameInfo(world.getNumberOfSoldiers(teams[0]),
-                    world.getNumberOfSoldiers(teams[1]));
+
             try {
                 Thread.sleep(updateCycle);
             } catch (InterruptedException ex) {

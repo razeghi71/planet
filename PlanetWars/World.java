@@ -23,6 +23,7 @@ public class World {
     private long soldierNum = 0;
     private int time = 0;
     private int maxTime = 3600 ;
+    private Team  teams[] = new Team[2];
 
     public World(GraphicEngine engine) {
         this.engine = engine;
@@ -82,10 +83,10 @@ public class World {
 
         engine.setSize(getWidth(), getHeight());
 
-        Team team1 = new Team(sc.next());
-        Team team2 = new Team(sc.next());
+        teams[0] = new Team(sc.next());
+        teams[1] = new Team(sc.next());
 
-        engine.setTeamNames(team1.getName(), team2.getName());
+        engine.setTeamNames(teams[0].getName(), teams[1].getName());
 
         int numberOfPlanets = sc.nextInt();
 
@@ -149,12 +150,12 @@ public class World {
      *
      * @return true if game is finished
      */
-    public boolean isGameFinished() {
+    public boolean isGameFinished() {   
         if (time > maxTime)
             return true;
         for (int i = 1; i < planets.length; i++)
             if (!planets[i].getOwner().getName().equals(planets[i - 1].getOwner().getName()))
-                if (!planets[i - 1].getOwner().getName().equals("none") && 
+                if ( !planets[i - 1].getOwner().getName().equals("none") && 
                         !planets[i - 1].getOwner().getName().equals("Blackhole") &&
                         !planets[ i ].getOwner().getName().equals("none") &&
                         !planets[ i ].getOwner().getName().equals("Blackhole")) 
@@ -190,6 +191,8 @@ public class World {
         destroyUselessSoldiers();
         time++;
         engine.setClock(time);
+        engine.setGameInfo(getNumberOfSoldiers(teams[0].getName()),
+                getNumberOfSoldiers(teams[1].getName()));
     }
 
     public void destroyUselessSoldiers() {
