@@ -38,6 +38,7 @@ public class GraphicalWorld implements GraphicEngine {
     private BufferedImage spaceship_blue, spaceship_red;
 	private JLabel team1_soldiers;
 	private JLabel team2_soldiers;
+	private JPanel infoBar;
 
     
 //    private Thread turnThread;
@@ -47,9 +48,11 @@ public class GraphicalWorld implements GraphicEngine {
         soldiers = new HashMap<Soldier, JButton>();
         
         team1_soldiers = new JLabel();
+        team1_soldiers.setOpaque(true);
         team1_soldiers.setBackground(Color.white);
         
         team2_soldiers = new JLabel();
+        team2_soldiers.setOpaque(true);
         team2_soldiers.setBackground(Color.white);
         
         try {
@@ -224,11 +227,11 @@ public class GraphicalWorld implements GraphicEngine {
         this.team1 = team1;
         this.team2 = team2;
 
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setLocation(0, 0);
-        panel.setSize(window.getWidth(), 50);
-        window.add(panel);
+        infoBar = new JPanel();
+        infoBar.setLayout(null);
+        infoBar.setLocation(0, 0);
+        infoBar.setSize(window.getWidth(), 50);
+        window.add(infoBar);
         
         JLabel title1 = new JLabel();
         title1.setOpaque(true);
@@ -239,7 +242,7 @@ public class GraphicalWorld implements GraphicEngine {
         title1.setVerticalAlignment(SwingConstants.CENTER);
         title1.setBackground(Color.red);
         title1.setText("<html><font color='white'>" + team1 + "</font></html>");
-        panel.add(title1);
+        infoBar.add(title1);
 
         JLabel title2 = new JLabel();
         title2.setOpaque(true);
@@ -250,10 +253,11 @@ public class GraphicalWorld implements GraphicEngine {
         title2.setVerticalAlignment(SwingConstants.CENTER);
         title2.setBackground(Color.blue);
         title2.setText("<html><font color='white'>" + team2 + "</font></html>");
-        panel.add(title2);
+        infoBar.add(title2);
         
-        panel.add(team1_soldiers);
-        panel.add(team2_soldiers);
+        infoBar.add(team1_soldiers, 0);
+		infoBar.add(team2_soldiers, 0);
+       
         
         window.repaint();
     }
@@ -318,11 +322,14 @@ public class GraphicalWorld implements GraphicEngine {
 	@Override
 	public void setGameInfo(int team1Soldiers, int team2Soldiers) {
 		// TODO Auto-generated method stub
-		double p1_d = ((double)team1Soldiers)/(team1Soldiers + team2Soldiers);
-		team1_soldiers.setBounds(0, 40,(int)p1_d*window.getWidth()/2, 10);
+		double p1_d = (double)(team1Soldiers)/(team1Soldiers + team2Soldiers);
+		team1_soldiers.setBounds(0, 40,(int)(window.getWidth()*p1_d/2), 10);
 		
-		double p2_d = ((double)team2Soldiers)/(team1Soldiers + team2Soldiers);
-		team2_soldiers.setBounds(window.getWidth()/2, 40,(int)p2_d*window.getWidth()/2, 10);
+		double p2_d = (double)(team2Soldiers)/(team1Soldiers + team2Soldiers);
+		team2_soldiers.setBounds(window.getWidth()/2, 40,(int)(window.getWidth()*p2_d/2), 10);
+		
+		infoBar.repaint();
+//		window.repaint();
 		
 	}
 
