@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -21,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -30,6 +32,8 @@ import PlanetWars.Soldier;
 
 public class GraphicalWorld implements GraphicEngine {
 
+	private int maxClock;
+	private JLabel time;
     private JFrame window;
     private ImagePanel mainView;
     private HashMap<Planet, JButton> planets;
@@ -145,7 +149,6 @@ public class GraphicalWorld implements GraphicEngine {
 
     public void destroySoldier (Soldier soldier){
     	JButton s = soldiers.get(soldier);
-
         mainView.remove(s);
         soldiers.remove(soldier);
     }
@@ -322,6 +325,7 @@ public class GraphicalWorld implements GraphicEngine {
 	@Override
 	public void setGameInfo(int team1Soldiers, int team2Soldiers) {
 		// TODO Auto-generated method stub
+		System.out.println(team1Soldiers + " " + team2Soldiers);
 		double p1_d = (double)(team1Soldiers)/(team1Soldiers + team2Soldiers);
 		team1_soldiers.setBounds(0, 40,(int)(window.getWidth()*p1_d/2), 10);
 		
@@ -329,20 +333,31 @@ public class GraphicalWorld implements GraphicEngine {
 		team2_soldiers.setBounds(window.getWidth()/2, 40,(int)(window.getWidth()*p2_d/2), 10);
 		
 		infoBar.repaint();
-//		window.repaint();
 		
 	}
 
 	@Override
 	public void gameFinishedEvent(String team) {
 		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, team);
 		
+	}
+
+	@Override
+	public void setClock(int clock) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMaxClock(int max) {
+		// TODO Auto-generated method stub
+		this.maxClock = max;
 	}
 
 }
 
 class ImagePanel extends JPanel {
-
     /**
      *
      */
