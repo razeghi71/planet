@@ -61,7 +61,6 @@ public class GraphicalWorld implements GraphicEngine {
 					final HashMap<Planet, JButton> planets_tmp = planets;
 					for (JButton bl : planets_tmp.values()) {
 						if (bl.getName().equals("Blackhole")) {
-							
 							ImageIcon icon = (ImageIcon)bl.getIcon();
 							if (icon != null) {
 								BufferedImage img = (BufferedImage)((Image) icon.getImage());
@@ -69,11 +68,10 @@ public class GraphicalWorld implements GraphicEngine {
 								mainView.repaint();
 							}
 							
-							
 						}
 					}
 					try {
-						Thread.sleep(200);
+						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
