@@ -23,8 +23,6 @@ public class Game {
     private int updateCycle = 50;
     private int messgeCycle = 1000;
     private GraphicEngine engine;
-    
-    
 
     /**
      * Game Class
@@ -41,35 +39,21 @@ public class Game {
         world = new World(map, engine);
 
         try {
-            final ServerSocket ss = new ServerSocket(port);
+            ServerSocket ss = new ServerSocket(port);
 
-            Thread[] t = new Thread[2];
             for (int i = 0; i < 2; i++) {
-                final int localI = i;
-                t[i] = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            sock[localI] = ss.accept();
-                            writer[localI] = new PrintWriter(sock[localI].getOutputStream());
-                            reader[localI] = new Scanner(sock[localI].getInputStream());
-                            teams[localI] = reader[localI].next();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                });
-                t[i].start();
+                try {
+                    sock[i] = ss.accept();
+                    writer[i] = new PrintWriter(sock[i].getOutputStream());
+                    reader[i] = new Scanner(sock[i].getInputStream());
+                    teams[i] = reader[i].next();
+                } catch (IOException ex) {
+                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
-            t[0].join();
-            t[1].join();
-
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
 
     }
 
@@ -84,6 +68,7 @@ public class Game {
             ReaderThread[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Planet[] p = world.getPlanets();
                     while (!world.isGameFinished()) {
                         String msg;
                         try {
@@ -97,7 +82,9 @@ public class Game {
                                 int from = Integer.parseInt(parts[0]);
                                 int to = Integer.parseInt(parts[1]);
                                 int nr = Integer.parseInt(parts[2]);
-                                if (teams[localI].equals(world.getPlanets()[from - 1].getOwner().getName())
+
+                                if (from > 0 && to > 0 && from < p.length && to < p.length
+                                        && teams[localI].equals(p[from - 1].getOwner().getName())
                                         && nr > 0) {
                                     world.sendSoldier(from - 1, to - 1, nr);
                                 }
@@ -119,7 +106,6 @@ public class Game {
             @Override
             public void run() {
                 while (!world.isGameFinished()) {
-//                    System.out.println(world.isGameFinished());
 
                     String info = world.getCompleteWorldInfo();
                     Thread[] writerThread = new Thread[2];

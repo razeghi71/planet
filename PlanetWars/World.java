@@ -27,14 +27,12 @@ public class World {
     public World(GraphicEngine engine) {
         this.engine = engine;
         this.soldiers = new ArrayList<Soldier>();
-        engine.setMaxClock(maxTime);
         parseMapFile("default.map");
     }
 
     public World(String map, GraphicEngine engine) {
         this.soldiers = new ArrayList<Soldier>();
         this.engine = engine;
-        engine.setMaxClock(maxTime);
         parseMapFile(map);
     }
 
@@ -113,6 +111,9 @@ public class World {
             }
             engine.addPlanet(planets[i]);
         }
+        
+        engine.setMaxClock(maxTime);
+
     }
 
     /**
