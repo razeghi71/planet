@@ -144,9 +144,9 @@ public class World {
     public boolean isGameFinished() {
         for (int i = 1; i < planets.length; i++)
             if (!planets[i].getOwner().getName().equals(planets[i - 1].getOwner().getName()))
-                if (!planets[i - 1].getOwner().getName().equals("none")) 
+                if (!planets[i - 1].getOwner().getName().equals("none") && 
+                        !planets[i - 1].getOwner().getName().equals("Blackhole")) 
                     return false;
-
         return true;
     }
 
