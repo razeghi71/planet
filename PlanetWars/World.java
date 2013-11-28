@@ -202,6 +202,21 @@ public class World {
             }
         }
     }
+    
+    public String getWinner(){
+        for (int i = 1; i < planets.length; i++)
+            if ( !planets[i].getOwner().getName().equals("null") )
+                return planets[i].getOwner().getName();
+        return "none";
+    }
+    
+    public int getNumberOfSoldiers (String team){
+        int c = 0 ;
+        for (int i = 1; i < planets.length; i++)
+            if ( planets[i].getOwner().getName() == team )
+                c+=planets[i].getNumerOfSoldiers();
+        return c;
+    }
 
     @Override
     public String toString() {

@@ -21,4 +21,8 @@ public interface GraphicEngine {
     void setTeamNames ( String team1 , String team2 ) ;
     
     void setSize ( int width , int height );
+    
+    
+    void setGameInfo (  int team1Soldiers , int team2Soldiers  );
+    void gameFinishedEvent (String team);
 }

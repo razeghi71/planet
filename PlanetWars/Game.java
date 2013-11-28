@@ -22,6 +22,7 @@ public class Game {
     private String teams[] = new String[2];
     private int updateCycle = 50;
     private int messgeCycle = 1000;
+    private GraphicEngine engine;
     
     
 
@@ -30,8 +31,10 @@ public class Game {
      *
      * @param port which port to listen on
      * @param map map file
+     * @param engine game graphic engine
      */
     public Game(int port, String map, GraphicEngine engine) {
+        this.engine = engine;
         this.writer = new PrintWriter[2];
         this.reader = new Scanner[2];
         this.sock = new Socket[2];
@@ -150,12 +153,15 @@ public class Game {
 
         while (!world.isGameFinished()) {
             world.Step();
+            engine.setGameInfo(world.getNumberOfSoldiers(teams[0]),
+                    world.getNumberOfSoldiers(teams[1]));
             try {
                 Thread.sleep(updateCycle);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        engine.gameFinishedEvent(world.getWinner());
         for (int i = 0; i < 2; i++) {
             writer[i].println("%");
             writer[i].flush();
@@ -165,6 +171,5 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 }
