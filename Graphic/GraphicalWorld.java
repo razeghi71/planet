@@ -255,16 +255,6 @@ public class GraphicalWorld implements GraphicEngine {
         return op.filter(bufferedImage, null);
     }
 
-    @Override
-    public void setGameInfo(int team1Soldiers, int team2Soldiers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void gameFinishedEvent(String team) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
 
 class ImagePanel extends JPanel {
