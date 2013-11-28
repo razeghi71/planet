@@ -223,7 +223,8 @@ public class World {
     
     public String getWinner(){
         for (int i = 1; i < planets.length; i++)
-            if ( !planets[i].getOwner().getName().equals("null") )
+            if ( !planets[i].getOwner().getName().equals("none") && 
+                    !planets[i].getOwner().getName().equals("Blackhole"))
                 return planets[i].getOwner().getName();
         return "none";
     }
