@@ -33,10 +33,19 @@ public class GraphicalWorld implements GraphicEngine {
     private HashMap<Planet, JButton> planets;
     private HashMap<Soldier, JButton> soldiers;
     private String team1, team2;
+    BufferedImage spaceship_blue, spaceship_red;
 
     public GraphicalWorld() {
         planets = new HashMap<Planet, JButton>();
         soldiers = new HashMap<Soldier, JButton>();
+        
+        try {
+        	 spaceship_blue = ImageIO.read(getClass().getResource("/resources/Spaceship_blue.png"));
+        	 spaceship_red = ImageIO.read(getClass().getResource("/resources/Spaceship_red.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     private void makeMainView() {
@@ -62,19 +71,14 @@ public class GraphicalWorld implements GraphicEngine {
         text.setSize(pl.getWidth(), 30);
         text.setLocation(0, pl.getHeight()/2 - 15);
         pl.add(text);
-        String color = "";
+        BufferedImage image;
         if (soldier.getTeam().getName().equals(team1)) {
-            color = "red";
+            image = spaceship_red;
         } else {
-            color = "blue";
+        	image = spaceship_blue;
         }
         ImageIcon imageForOne = null;
-        try {
-            imageForOne = new ImageIcon(rotate(resize(ImageIO.read(getClass().getResource("/resources/Spaceship_"+ color+ ".png")), width, height), soldier.getPosition(), soldier.getDest().getPosition()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        imageForOne = new ImageIcon(rotate(resize(image, width, height), soldier.getPosition(), soldier.getDest().getPosition()));
         pl.setIcon(imageForOne);
         pl.setBorderPainted(false);
         pl.setContentAreaFilled(false);
