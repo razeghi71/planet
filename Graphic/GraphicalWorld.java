@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,7 +35,9 @@ public class GraphicalWorld implements GraphicEngine {
     private HashMap<Planet, JButton> planets;
     private HashMap<Soldier, JButton> soldiers;
     private String team1, team2;
-    BufferedImage spaceship_blue, spaceship_red;
+    private BufferedImage spaceship_blue, spaceship_red;
+    
+    private Thread turnThread;
 
     public GraphicalWorld() {
         planets = new HashMap<Planet, JButton>();
@@ -46,6 +50,38 @@ public class GraphicalWorld implements GraphicEngine {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        turnThread = new Thread(new Runnable() {
+        	private final double theta = 0.02;
+//			public void refresh () {
+//				
+//			}
+			@Override
+			public void run() {
+				while (true) {
+					final HashMap<Planet, JButton> planets_tmp = planets;
+					for (JButton bl : planets_tmp.values()) {
+						if (bl.getName().equals("Blackhole")) {
+							
+							ImageIcon icon = (ImageIcon)bl.getIcon();
+							if (icon != null) {
+								BufferedImage img = (BufferedImage)((Image) icon.getImage());
+								bl.setIcon(new ImageIcon(rotate(img, new Point(0, 0), new Point(10,1 ))));
+								mainView.repaint();
+							}
+							
+							
+						}
+					}
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+        turnThread.start();
     }
 
     private void makeMainView() {
@@ -108,28 +144,37 @@ public class GraphicalWorld implements GraphicEngine {
         planets.put(planet, pl);
         pl.setSize(planet.getDiameter(), planet.getDiameter());
         pl.setLocation((int) (planet.getPosition().getX() - planet.getDiameter() / 2), (int) (planet.getPosition().getY() - planet.getDiameter() / 2));
-
-        JLabel text = new JLabel("" + planet.getNumerOfSoldiers());
-        text.setHorizontalAlignment(SwingConstants.CENTER);
-        text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
-        text.setSize(pl.getWidth() , pl.getHeight() / 3);
-        text.setLocation(0, pl.getHeight() / 3);
-        pl.add(text);
         pl.setName(planet.getOwner().getName());
 
         ImageIcon imageForOne = null;
-        String color = "default";
-        if (planet.getOwner().getName().equals(team1)) {
-            color = "red";
-        } else if (planet.getOwner().getName().equals(team2)) {
-            color = "blue";
+        if (planet.getOwner().getName().equals("Blackhole")){
+            try {
+                imageForOne = new ImageIcon(resize(ImageIO.read(getClass().getResource("/resources/Black-hole.png")), planet.getDiameter(), planet.getDiameter()));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else {
+        	JLabel text = new JLabel("" + planet.getNumerOfSoldiers());
+            text.setHorizontalAlignment(SwingConstants.CENTER);
+            text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
+            text.setSize(pl.getWidth() , pl.getHeight() / 3);
+            text.setLocation(0, pl.getHeight() / 3);
+            pl.add(text);
+        	String color = "default";
+            if (planet.getOwner().getName().equals(team1)) {
+                color = "red";
+            } else if (planet.getOwner().getName().equals(team2)) {
+                color = "blue";
+            }
+            try {
+                imageForOne = new ImageIcon(resize(ImageIO.read(getClass().getResource("/resources/Planet_" + color + ".png")), planet.getDiameter(), planet.getDiameter()));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
-        try {
-            imageForOne = new ImageIcon(resize(ImageIO.read(getClass().getResource("/resources/Planet_" + color + ".png")), planet.getDiameter(), planet.getDiameter()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
         pl.setIcon(imageForOne);
         pl.setBorderPainted(false);
         pl.setContentAreaFilled(false);
@@ -250,10 +295,22 @@ public class GraphicalWorld implements GraphicEngine {
             }
         }
         AffineTransform transform = new AffineTransform();
-        transform.rotate(radians, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
+        transform.rotate(radians, bufferedImage.getWidth()/2, bufferedImage.getHeight()/2);
         AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(bufferedImage, null);
     }
+
+	@Override
+	public void setGameInfo(int team1Soldiers, int team2Soldiers) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gameFinishedEvent(String team) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
 
