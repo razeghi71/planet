@@ -231,7 +231,7 @@ public class World {
     public int getNumberOfSoldiers (String team){
         int c = 0 ;
         for (int i = 1; i < planets.length; i++)
-            if ( planets[i].getOwner().getName() == team )
+            if ( planets[i].getOwner().getName().equals(team) )
                 c+=planets[i].getNumerOfSoldiers();
         return c;
     }
