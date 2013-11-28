@@ -9,7 +9,7 @@ import java.awt.Point;
  */
 public class Planet {
     private int id  = 0;
-    private int diameter;
+    private int diameter = 0;
     private Team owner ;
     private int numberOfSoldiers = 0;
     private Point position;
@@ -63,7 +63,7 @@ public class Planet {
      * add number of Soldiers based on diameter
      */
     public void Step(){
-        if ( !this.owner.getName().equals("none") ) {
+        if ( !this.owner.getName().equals("none") && !this.owner.getName().equals("Blackhole")  ) {
             this.numberOfSoldiers+=this.diameter/SoldierCreateRate;
         }
     }

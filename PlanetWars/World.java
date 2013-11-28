@@ -100,7 +100,8 @@ public class World {
 
             if (team.equals("none")) {
                 planets[i] = new Planet(dia, new Point(x, y),i);
-            } else {
+            }
+            else {
                 planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y),i);
             }
             engine.addPlanet(planets[i]);
@@ -162,8 +163,11 @@ public class World {
      */
     public void Step() {
         for (int i = 0; i < planets.length; i++) {
-            planets[i].Step();
-            engine.updatePlanet(planets[i]);
+            if ( !planets[i].getOwner().getName().equals("Blackhole"))
+            {
+                planets[i].Step();
+                engine.updatePlanet(planets[i]);
+            }
         }
         for (int i = 0; i < soldiers.size(); i++) {
             synchronized (soldiers) {
@@ -175,9 +179,23 @@ public class World {
     }
 
     public void destroyUselessSoldiers() {
-        for (int i = 0; i < soldiers.size(); i++) {
+        outer : for (int i = 0; i < soldiers.size(); i++) {
             Soldier sol = soldiers.get(i);
 
+            for (int j = 0; j < planets.length; j++) {
+                if ( !planets[j].getOwner().getName().equals("Blackhole") )
+                    continue;
+                Point position = planets[j].getPosition();
+                double dist = Math.sqrt ( (position.x - sol.getPosition().x )*( position.x - sol.getPosition().x ) 
+               + ( position.y - sol.getPosition().y )*( position.y - sol.getPosition().y ) ) ;
+                
+                if ( dist < planets[j].getDiameter())
+                {
+                    engine.destroySoldier(sol);
+                    soldiers.remove(sol);
+                    continue outer;
+                }
+            }
             if (sol.isArrived()) {
                 int nr = soldiers.get(i).getStrenght();
                 int nrOfCurrentSolsInDest = sol.getDest().getNumerOfSoldiers();
@@ -196,8 +214,8 @@ public class World {
                     }
                 }
                 engine.updatePlanet(sol.getDest());
+                
                 engine.destroySoldier(sol);
-
                 soldiers.remove(sol);
             }
         }
