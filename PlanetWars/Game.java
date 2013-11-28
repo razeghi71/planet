@@ -89,9 +89,9 @@ public class Game {
                                 }
                             } catch (NumberFormatException nfe) {
                             }
-                        }   
+                        }
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(1000);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -101,28 +101,42 @@ public class Game {
             ReaderThread[i].start();
         }
 
-        while (!world.isGameFinished()) {
-            String info = world.getCompleteWorldInfo();
-            Thread[] writerThread = new Thread[2];
-            for (int i = 0; i < 2; i++) {
-                final int localI = i;
-                final String localInfo = info;
-                writerThread[i] = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        writer[localI].println(localInfo);
-                        writer[localI].flush();
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (!world.isGameFinished()) {
+                    String info = world.getCompleteWorldInfo();
+                    Thread[] writerThread = new Thread[2];
+                    for (int i = 0; i < 2; i++) {
+                        final int localI = i;
+                        final String localInfo = info;
+                        writerThread[i] = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                writer[localI].println(localInfo);
+                                writer[localI].flush();
+                            }
+                        });
+                        writerThread[i].start();
                     }
-                });
-                writerThread[i].start();
+                    try {
+                        writerThread[0].join();
+                        writerThread[1].join();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-            try {
-                writerThread[0].join();
-                writerThread[1].join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+        }).start();
+
+        while (!world.isGameFinished()) {
             world.Step();
             try {
                 Thread.sleep(100);
@@ -130,6 +144,7 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
         for (int i = 0; i < 2; i++) {
             writer[i].println("%");
             writer[i].flush();

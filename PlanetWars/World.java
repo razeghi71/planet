@@ -132,10 +132,11 @@ public class World {
         Soldier newSoldier = new Soldier(p1.getOwner(), p1.getPosition(), p2, nr, soldierNum++);
 //        System.out.println("add : " + p1.getOwner().getName() + " " + p1.getPosition() 
 //                + " " + p2.getOwner().getName() + " " + nr);
-        synchronized ( soldiers ){
+        synchronized (soldiers) {
             soldiers.add(newSoldier);
-            engine.addSoldier(newSoldier);
         }
+        engine.addSoldier(newSoldier);
+
     }
 
     /**
@@ -169,14 +170,15 @@ public class World {
             planets[i].Step();
             engine.updatePlanet(planets[i]);
         }
-        synchronized ( soldiers ){
-            for (int i = 0; i < soldiers.size(); i++) {
+        for (int i = 0; i < soldiers.size(); i++) {
+            synchronized (soldiers) {
                 soldiers.get(i).setNewPos();
-                engine.updateSoldier(soldiers.get(i));
             }
-        
-            destroyUselessSoldiers();
+            engine.updateSoldier(soldiers.get(i));
         }
+
+        destroyUselessSoldiers();
+
     }
 
     public void destroyUselessSoldiers() {
