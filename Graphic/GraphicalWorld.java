@@ -36,12 +36,21 @@ public class GraphicalWorld implements GraphicEngine {
     private HashMap<Soldier, JButton> soldiers;
     private String team1, team2;
     private BufferedImage spaceship_blue, spaceship_red;
+	private JLabel team1_soldiers;
+	private JLabel team2_soldiers;
+
     
-    private Thread turnThread;
+//    private Thread turnThread;
 
     public GraphicalWorld() {
         planets = new HashMap<Planet, JButton>();
         soldiers = new HashMap<Soldier, JButton>();
+        
+        team1_soldiers = new JLabel();
+        team1_soldiers.setBackground(Color.white);
+        
+        team2_soldiers = new JLabel();
+        team2_soldiers.setBackground(Color.white);
         
         try {
         	 spaceship_blue = ImageIO.read(getClass().getResource("/resources/Spaceship_blue.png"));
@@ -50,36 +59,38 @@ public class GraphicalWorld implements GraphicEngine {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        turnThread = new Thread(new Runnable() {
-        	private final double theta = 0.02;
-//			public void refresh () {
-//				
+//        turnThread = new Thread(new Runnable() {
+//        	private final double theta = 0.02;
+////			public void refresh () {
+////				
+////			}
+//			@Override
+//			public void run() {
+//				while (true) {
+//					final HashMap<Planet, JButton> planets_tmp = planets;
+//					for (JButton bl : planets_tmp.values()) {
+//						if (bl.getName().equals("Blackhole")) {
+//							ImageIcon icon = (ImageIcon)bl.getIcon();
+//							
+//
+//							if (icon != null) {
+//								BufferedImage img = (BufferedImage)((Image) icon.getImage());
+//								BufferedImage tmp = rotate(resize(img, 100, 100), new Point(0,0), new Point(10, 1));
+//							}
+//							
+//
+//						}
+//					}
+//					try {
+//						Thread.sleep(20);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
 //			}
-			@Override
-			public void run() {
-				while (true) {
-					final HashMap<Planet, JButton> planets_tmp = planets;
-					for (JButton bl : planets_tmp.values()) {
-						if (bl.getName().equals("Blackhole")) {
-							ImageIcon icon = (ImageIcon)bl.getIcon();
-							if (icon != null) {
-								BufferedImage img = (BufferedImage)((Image) icon.getImage());
-								bl.setIcon(new ImageIcon(rotate(img, new Point(0, 0), new Point(10,1 ))));
-								mainView.repaint();
-							}
-							
-						}
-					}
-					try {
-						Thread.sleep(20);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-        turnThread.start();
+//		});
+//        turnThread.start();
     }
 
     private void makeMainView() {
@@ -221,7 +232,7 @@ public class GraphicalWorld implements GraphicEngine {
         
         JLabel title1 = new JLabel();
         title1.setOpaque(true);
-        title1.setFont(new Font("Serif", Font.BOLD, 20));
+        title1.setFont(new Font("Serif", Font.BOLD, 17));
         title1.setLocation(0, 0);
         title1.setSize(window.getWidth()/2, 50);
         title1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -240,6 +251,10 @@ public class GraphicalWorld implements GraphicEngine {
         title2.setBackground(Color.blue);
         title2.setText("<html><font color='white'>" + team2 + "</font></html>");
         panel.add(title2);
+        
+        panel.add(team1_soldiers);
+        panel.add(team2_soldiers);
+        
         window.repaint();
     }
 
@@ -278,6 +293,7 @@ public class GraphicalWorld implements GraphicEngine {
     }
 
     public BufferedImage rotate(BufferedImage bufferedImage, Point A, Point B) {
+
         double radians;
         if (A.x == B.x) {
             if (A.y > B.y) {
@@ -295,12 +311,18 @@ public class GraphicalWorld implements GraphicEngine {
         AffineTransform transform = new AffineTransform();
         transform.rotate(radians, bufferedImage.getWidth()/2, bufferedImage.getHeight()/2);
         AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+
         return op.filter(bufferedImage, null);
     }
 
 	@Override
 	public void setGameInfo(int team1Soldiers, int team2Soldiers) {
 		// TODO Auto-generated method stub
+		double p1_d = ((double)team1Soldiers)/(team1Soldiers + team2Soldiers);
+		team1_soldiers.setBounds(0, 40,(int)p1_d*window.getWidth()/2, 10);
+		
+		double p2_d = ((double)team2Soldiers)/(team1Soldiers + team2Soldiers);
+		team2_soldiers.setBounds(window.getWidth()/2, 40,(int)p2_d*window.getWidth()/2, 10);
 		
 	}
 
