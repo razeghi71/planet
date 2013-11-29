@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,72 +29,38 @@ import PlanetWars.Soldier;
 
 public class GraphicalWorld implements GraphicEngine {
 
-	private int maxClock;
-	private JLabel time;
+    private int maxClock;
+    private JLabel time;
     private JFrame window;
     private ImagePanel mainView;
     private HashMap<Planet, JButton> planets;
     private HashMap<Soldier, JButton> soldiers;
     private String team1, team2;
     private BufferedImage spaceship_blue, spaceship_red;
-	private JLabel team1_soldiers;
-	private JLabel team2_soldiers;
-	private JPanel infoBar;
+    private JLabel team1_soldiers;
+    private JLabel team2_soldiers;
+    private JPanel infoBar;
 
-    
 //    private Thread turnThread;
-
     public GraphicalWorld() {
         planets = new HashMap<Planet, JButton>();
         soldiers = new HashMap<Soldier, JButton>();
-        
+
         team1_soldiers = new JLabel();
         team1_soldiers.setOpaque(true);
         team1_soldiers.setBackground(Color.white);
-        
+
         team2_soldiers = new JLabel();
         team2_soldiers.setOpaque(true);
         team2_soldiers.setBackground(Color.white);
-        
+
         try {
-        	 spaceship_blue = ImageIO.read(getClass().getResource("/resources/Spaceship_blue.png"));
-        	 spaceship_red = ImageIO.read(getClass().getResource("/resources/Spaceship_red.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//        turnThread = new Thread(new Runnable() {
-//        	private final double theta = 0.02;
-////			public void refresh () {
-////				
-////			}
-//			@Override
-//			public void run() {
-//				while (true) {
-//					final HashMap<Planet, JButton> planets_tmp = planets;
-//					for (JButton bl : planets_tmp.values()) {
-//						if (bl.getName().equals("Blackhole")) {
-//							ImageIcon icon = (ImageIcon)bl.getIcon();
-//							
-//
-//							if (icon != null) {
-//								BufferedImage img = (BufferedImage)((Image) icon.getImage());
-//								BufferedImage tmp = rotate(resize(img, 100, 100), new Point(0,0), new Point(10, 1));
-//							}
-//							
-//
-//						}
-//					}
-//					try {
-//						Thread.sleep(20);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		});
-//        turnThread.start();
+            spaceship_blue = ImageIO.read(getClass().getResource("/resources/Spaceship_blue.png"));
+            spaceship_red = ImageIO.read(getClass().getResource("/resources/Spaceship_red.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void makeMainView() {
@@ -112,7 +75,7 @@ public class GraphicalWorld implements GraphicEngine {
         JButton pl = new JButton();
         pl.setLayout(null);
         soldiers.put(soldier, pl);
-        int width = 2 * (int) (30 * Math.atan(soldier.getStrenght())) +5;
+        int width = 2 * (int) (30 * Math.atan(soldier.getStrenght())) + 5;
         int height = width;
         pl.setSize(width, height);
         pl.setLocation((int) (soldier.getPosition().getX() - width / 2), (int) (soldier.getPosition().getY() - height / 2));
@@ -121,13 +84,13 @@ public class GraphicalWorld implements GraphicEngine {
         text.setText(soldier.getStrenght() + "");
         text.setFont(new Font("Arial", Font.BOLD, 15));
         text.setSize(pl.getWidth(), 30);
-        text.setLocation(0, pl.getHeight()/2 - 15);
+        text.setLocation(0, pl.getHeight() / 2 - 15);
         pl.add(text);
         BufferedImage image;
-        if (soldier.getTeam().getName().equals(team1)) {
+        if (soldier.getTeam().equals(team1)) {
             image = spaceship_red;
         } else {
-        	image = spaceship_blue;
+            image = spaceship_blue;
         }
         ImageIcon imageForOne = null;
         imageForOne = new ImageIcon(rotate(resize(image, width, height), soldier.getPosition(), soldier.getDest().getPosition()));
@@ -147,8 +110,8 @@ public class GraphicalWorld implements GraphicEngine {
         mainView.repaint();
     }
 
-    public void destroySoldier (Soldier soldier){
-    	JButton s = soldiers.get(soldier);
+    public void destroySoldier(Soldier soldier) {
+        JButton s = soldiers.get(soldier);
         mainView.remove(s);
         soldiers.remove(soldier);
     }
@@ -159,10 +122,10 @@ public class GraphicalWorld implements GraphicEngine {
         planets.put(planet, pl);
         pl.setSize(planet.getDiameter(), planet.getDiameter());
         pl.setLocation((int) (planet.getPosition().getX() - planet.getDiameter() / 2), (int) (planet.getPosition().getY() - planet.getDiameter() / 2));
-        pl.setName(planet.getOwner().getName());
+        pl.setName(planet.getOwner());
 
         ImageIcon imageForOne = null;
-        if (planet.getOwner().getName().equals("Blackhole")){
+        if (planet.getOwner().equals("Blackhole")) {
             try {
                 imageForOne = new ImageIcon(resize(ImageIO.read(getClass().getResource("/resources/Black-hole.png")), planet.getDiameter(), planet.getDiameter()));
             } catch (IOException e) {
@@ -170,16 +133,16 @@ public class GraphicalWorld implements GraphicEngine {
                 e.printStackTrace();
             }
         } else {
-        	JLabel text = new JLabel("" + planet.getNumerOfSoldiers());
+            JLabel text = new JLabel("" + planet.getNumerOfSoldiers());
             text.setHorizontalAlignment(SwingConstants.CENTER);
             text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
-            text.setSize(pl.getWidth() , pl.getHeight() / 3);
+            text.setSize(pl.getWidth(), pl.getHeight() / 3);
             text.setLocation(0, pl.getHeight() / 3);
             pl.add(text);
-        	String color = "default";
-            if (planet.getOwner().getName().equals(team1)) {
+            String color = "default";
+            if (planet.getOwner().equals(team1)) {
                 color = "red";
-            } else if (planet.getOwner().getName().equals(team2)) {
+            } else if (planet.getOwner().equals(team2)) {
                 color = "blue";
             }
             try {
@@ -189,7 +152,7 @@ public class GraphicalWorld implements GraphicEngine {
                 e.printStackTrace();
             }
         }
-        
+
         pl.setIcon(imageForOne);
         pl.setBorderPainted(false);
         pl.setContentAreaFilled(false);
@@ -204,13 +167,12 @@ public class GraphicalWorld implements GraphicEngine {
         text.setText("<html><font color='white' size=" + planet.getDiameter() / 15 + ">" + planet.getNumerOfSoldiers() + "</font></html>");
         pl.add(text);
 
-        
-        if (!planet.getOwner().getName().equals(pl.getName())) {
-        	ImageIcon imageForOne = null;
+        if (!planet.getOwner().equals(pl)) {
+            ImageIcon imageForOne = null;
             String color = "default";
-            if (planet.getOwner().getName().equals(team1)) {
+            if (planet.getOwner().equals(team1)) {
                 color = "red";
-            } else if (planet.getOwner().getName().equals(team2)) {
+            } else if (planet.getOwner().equals(team2)) {
                 color = "blue";
             }
             try {
@@ -220,9 +182,9 @@ public class GraphicalWorld implements GraphicEngine {
                 e.printStackTrace();
             }
             pl.setIcon(imageForOne);
-            pl.setName(planet.getOwner().getName());
+            pl.setName(planet.getOwner());
         }
-        
+
         mainView.repaint();
     }
 
@@ -235,12 +197,12 @@ public class GraphicalWorld implements GraphicEngine {
         infoBar.setLocation(0, 0);
         infoBar.setSize(window.getWidth(), 50);
         window.add(infoBar);
-        
+
         JLabel title1 = new JLabel();
         title1.setOpaque(true);
         title1.setFont(new Font("Serif", Font.BOLD, 17));
         title1.setLocation(0, 0);
-        title1.setSize(window.getWidth()/2, 50);
+        title1.setSize(window.getWidth() / 2, 50);
         title1.setHorizontalAlignment(SwingConstants.CENTER);
         title1.setVerticalAlignment(SwingConstants.CENTER);
         title1.setBackground(Color.red);
@@ -250,24 +212,23 @@ public class GraphicalWorld implements GraphicEngine {
         JLabel title2 = new JLabel();
         title2.setOpaque(true);
         title2.setFont(new Font("Serif", Font.BOLD, 20));
-        title2.setLocation(window.getWidth()/2, 0);
-        title2.setSize(window.getWidth()/2, 50);
+        title2.setLocation(window.getWidth() / 2, 0);
+        title2.setSize(window.getWidth() / 2, 50);
         title2.setHorizontalAlignment(SwingConstants.CENTER);
         title2.setVerticalAlignment(SwingConstants.CENTER);
         title2.setBackground(Color.blue);
         title2.setText("<html><font color='white'>" + team2 + "</font></html>");
         infoBar.add(title2);
-        
+
         infoBar.add(team1_soldiers, 0);
-		infoBar.add(team2_soldiers, 0);
-       
-        
+        infoBar.add(team2_soldiers, 0);
+
         window.repaint();
     }
 
     public void setSize(int width, int height) {
         window = new JFrame();
-        window.setSize(width, height+50);
+        window.setSize(width, height + 50);
 
         makeMainView();
 
@@ -312,59 +273,60 @@ public class GraphicalWorld implements GraphicEngine {
 
             radians = Math.atan((float) (A.y - B.y) / (float) (A.x - B.x));
             if (A.x > B.x) {
-            	radians += Math.PI;
+                radians += Math.PI;
             }
         }
         AffineTransform transform = new AffineTransform();
-        transform.rotate(radians, bufferedImage.getWidth()/2, bufferedImage.getHeight()/2);
+        transform.rotate(radians, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
 
         return op.filter(bufferedImage, null);
     }
 
-	@Override
-	public void setGameInfo(int team1Soldiers, int team2Soldiers) {
-		// TODO Auto-generated method stub
-		double p1_d = (double)(team1Soldiers)/(team1Soldiers + team2Soldiers);
-		team1_soldiers.setBounds(0, 45,(int)(window.getWidth()*p1_d/2), 5);
-		
-		double p2_d = (double)(team2Soldiers)/(team1Soldiers + team2Soldiers);
-		team2_soldiers.setBounds(window.getWidth()/2, 45,(int)(window.getWidth()*p2_d/2), 5);
-		
-		infoBar.repaint();
-		
-	}
+    @Override
+    public void setGameInfo(int team1Soldiers, int team2Soldiers) {
+        // TODO Auto-generated method stub
+        double p1_d = (double) (team1Soldiers) / (team1Soldiers + team2Soldiers);
+        team1_soldiers.setBounds(0, 45, (int) (window.getWidth() * p1_d / 2), 5);
 
-	@Override
-	public void gameFinishedEvent(String team) {
-		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(null, team);
-		
-	}
+        double p2_d = (double) (team2Soldiers) / (team1Soldiers + team2Soldiers);
+        team2_soldiers.setBounds(window.getWidth() / 2, 45, (int) (window.getWidth() * p2_d / 2), 5);
 
-	@Override
-	public void setClock(int clock) {
-		// TODO Auto-generated method stub
-		double c = (double)(maxClock - clock)/maxClock;
-		time.setBackground(new Color(0,(int)(c*255),0));
-		time.setSize((int)(c*window.getWidth()), 10);
-		infoBar.repaint();
-	}
+        infoBar.repaint();
 
-	@Override
-	public void setMaxClock(int max) {
-		// TODO Auto-generated method stub
-		this.maxClock = max;
-		time = new JLabel();
-		time.setBackground(Color.green);
-		time.setOpaque(true);
-		time.setBounds(0, 0, window.getWidth(), 10);
-		infoBar.add(time, 1);
-		infoBar.repaint();
-	}
+    }
+
+    @Override
+    public void gameFinishedEvent(String team) {
+        // TODO Auto-generated method stub
+        JOptionPane.showMessageDialog(null, team);
+
+    }
+
+    @Override
+    public void setClock(int clock) {
+        // TODO Auto-generated method stub
+        double c = (double) (maxClock - clock) / maxClock;
+        time.setBackground(new Color(0, (int) (c * 255), 0));
+        time.setSize((int) (c * window.getWidth()), 10);
+        infoBar.repaint();
+    }
+
+    @Override
+    public void setMaxClock(int max) {
+        // TODO Auto-generated method stub
+        this.maxClock = max;
+        time = new JLabel();
+        time.setBackground(Color.green);
+        time.setOpaque(true);
+        time.setBounds(0, 0, window.getWidth(), 10);
+        infoBar.add(time, 1);
+        infoBar.repaint();
+    }
 }
 
 class ImagePanel extends JPanel {
+
     /**
      *
      */

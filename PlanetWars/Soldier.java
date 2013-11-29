@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author mohammad
  */
 public class Soldier {
-    private Team team;
+    private String team;
     private Point position;
     private Planet dest;
     private int strenght;
@@ -16,7 +16,7 @@ public class Soldier {
     
     private boolean arrived = false;
     
-    public Soldier(Team team, Point position, Planet dest, int strenght, long number) {
+    public Soldier(String team, Point position, Planet dest, int strenght, long number) {
         this.team = team;
         this.position = position;
         this.dest = dest;
@@ -24,11 +24,11 @@ public class Soldier {
         this.number = number;
     }
 
-    public Team getTeam() {
+    public String getTeam() {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(String team) {
         this.team = team;
     }
 
@@ -88,7 +88,7 @@ public class Soldier {
     public String toString() {
         return "{\n" 
                 + "num: " + number + " ,\n"
-                + "team: " + team.getName() + " ,\n"
+                + "team: " + team + " ,\n"
                 + "posX: " + position.x + " ,\n"
                 + "posY: " + position.y + " ,\n"
                 + "dest: " + dest.getId() + " ,\n"

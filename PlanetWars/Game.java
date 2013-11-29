@@ -51,6 +51,7 @@ public class Game {
                     Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            world.setTeamNames(teams[0], teams[1]);
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         } 
@@ -84,7 +85,7 @@ public class Game {
                                 int nr = Integer.parseInt(parts[2]);
 
                                 if (from > 0 && to > 0 && from < p.length && to < p.length
-                                        && teams[localI].equals(p[from - 1].getOwner().getName())
+                                        && teams[localI].equals(p[from - 1].getOwner())
                                         && nr > 0) {
                                     world.sendSoldier(from - 1, to - 1, nr);
                                 }

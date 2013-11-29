@@ -21,20 +21,36 @@ public class World {
     private long soldierNum = 0;
     private int time = 0;
     private final int maxTime = 3600 ;
-    private Team  teams[] = new Team[2];
+    private String  teams[] =  new String[2] ;
 
     public World(GraphicEngine engine) {
         this.engine = engine;
         this.soldiers = new ArrayList<Soldier>();
         parseMapFile("default.map");
     }
-
+    
+ 
     public World(String map, GraphicEngine engine) {
         this.soldiers = new ArrayList<Soldier>();
         this.engine = engine;
         parseMapFile(map);
     }
 
+    public void setTeamNames ( String team1 , String team2 )
+    {
+        teams[0] = team1;
+        teams[1] = team2;
+        engine.setTeamNames(teams[0], teams[1]);
+
+        for (int i = 0; i < planets.length; i++) {
+            if (planets[i].getOwner().equals("P1"))
+                planets[i].setOwner(team1);
+            else if (planets[i].getOwner().equals("P2"))
+                planets[i].setOwner(team2);
+        }
+    }
+
+    
     public Planet[] getPlanets() {
         return planets;
     }
@@ -81,10 +97,6 @@ public class World {
 
         engine.setSize(getWidth(), getHeight());
 
-        teams[0] = new Team(sc.next());
-        teams[1] = new Team(sc.next());
-
-        engine.setTeamNames(teams[0].getName(), teams[1].getName());
 
         int numberOfPlanets = sc.nextInt();
 
@@ -94,7 +106,7 @@ public class World {
         int dia;
         String team;
         int nrSoldiers;
-
+        engine.setTeamNames("P1", "P2");
         for (int i = 0; i < numberOfPlanets; i++) {
             x = sc.nextInt();
             y = sc.nextInt();
@@ -105,14 +117,16 @@ public class World {
             if (team.equals("none")) {
                 planets[i] = new Planet(dia, new Point(x, y),i+1);
             }
+            else if (team.equals("Blackhole")) {
+                planets[i] = new Planet(dia, "Blackhole", nrSoldiers, new Point(x, y),i+1);
+            }
             else {
-                planets[i] = new Planet(dia, new Team(team), nrSoldiers, new Point(x, y),i+1);
+                planets[i] = new Planet(dia, team, nrSoldiers, new Point(x, y),i+1);
             }
             engine.addPlanet(planets[i]);
         }
         
         engine.setMaxClock(maxTime);
-
     }
 
     /**
@@ -152,11 +166,11 @@ public class World {
         if (time > maxTime)
             return true;
         for (int i = 1; i < planets.length; i++)
-            if (!planets[i].getOwner().getName().equals(planets[i - 1].getOwner().getName()))
-                if ( !planets[i - 1].getOwner().getName().equals("none") && 
-                        !planets[i - 1].getOwner().getName().equals("Blackhole") &&
-                        !planets[ i ].getOwner().getName().equals("none") &&
-                        !planets[ i ].getOwner().getName().equals("Blackhole")) 
+            if (!planets[i].getOwner().equals(planets[i - 1].getOwner()))
+                if ( !planets[i - 1].getOwner().equals("none") && 
+                        !planets[i - 1].getOwner().equals("Blackhole") &&
+                        !planets[ i ].getOwner().equals("none") &&
+                        !planets[ i ].getOwner().equals("Blackhole")) 
                     return false;
         return true;
     }
@@ -174,7 +188,7 @@ public class World {
      */
     public void Step() {
         for (int i = 0; i < planets.length; i++) {
-            if ( !planets[i].getOwner().getName().equals("Blackhole"))
+            if ( !planets[i].getOwner().equals("Blackhole"))
             {
                 planets[i].Step();
                 engine.updatePlanet(planets[i]);
@@ -189,8 +203,8 @@ public class World {
         destroyUselessSoldiers();
         time++;
         engine.setClock(time);
-        engine.setGameInfo(getNumberOfSoldiers(teams[0].getName()),
-                getNumberOfSoldiers(teams[1].getName()));
+        engine.setGameInfo(getNumberOfSoldiers(teams[0]),
+                getNumberOfSoldiers(teams[1]));
     }
 
     public void destroyUselessSoldiers() {
@@ -198,7 +212,7 @@ public class World {
             Soldier sol = soldiers.get(i);
 
             for (int j = 0; j < planets.length; j++) {
-                if ( !planets[j].getOwner().getName().equals("Blackhole") )
+                if ( !planets[j].getOwner().equals("Blackhole") )
                     continue;
                 Point position = planets[j].getPosition();
                 double dist = Math.sqrt ( (position.x - sol.getPosition().x )*( position.x - sol.getPosition().x ) 
@@ -214,7 +228,7 @@ public class World {
             if (sol.isArrived()) {
                 int nr = soldiers.get(i).getStrenght();
                 int nrOfCurrentSolsInDest = sol.getDest().getNumerOfSoldiers();
-                if (sol.getTeam().getName().equals(sol.getDest().getOwner().getName())) {
+                if (sol.getTeam().equals(sol.getDest().getOwner())) {
                     sol.getDest().setNumerOfSoldiers(nr + nrOfCurrentSolsInDest);
                 } else {
                     int newNumber = nrOfCurrentSolsInDest - nr;
@@ -225,7 +239,7 @@ public class World {
                         sol.getDest().setOwner(sol.getTeam());
                     } else {
                         sol.getDest().setNumerOfSoldiers(0);
-                        sol.getDest().setOwner(new Team("none"));
+                        sol.getDest().setOwner("none");
                     }
                 }
                 engine.updatePlanet(sol.getDest());
@@ -239,7 +253,7 @@ public class World {
     public int getNumberOfSoldiers (String team){
         int c = 0 ;
         for (int i = 0; i < planets.length; i++)
-            if ( planets[i].getOwner().getName().equals(team) )
+            if ( planets[i].getOwner().equals(team) )
                 c+=planets[i].getNumerOfSoldiers();
         return c;   
     }
