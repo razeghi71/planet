@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -22,7 +20,7 @@ public class World {
     private GraphicEngine engine;
     private long soldierNum = 0;
     private int time = 0;
-    private int maxTime = 3600 ;
+    private final int maxTime = 3600 ;
     private Team  teams[] = new Team[2];
 
     public World(GraphicEngine engine) {
