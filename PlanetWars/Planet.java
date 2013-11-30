@@ -64,8 +64,12 @@ public class Planet {
      */
     public void Step(){
         if ( !this.owner.equals("none") && !this.owner.equals("Blackhole")  ) {
-            this.numberOfSoldiers+=this.diameter/SoldierCreateRate;
+            this.numberOfSoldiers += getGrowthRate();
         }
+    }
+    
+    private int getGrowthRate(){
+    	return this.diameter / Planet.SoldierCreateRate;
     }
 
     public int getId() {
