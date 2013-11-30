@@ -40,6 +40,7 @@ public class GraphicalWorld implements GraphicEngine {
     private JLabel team1_soldiers;
     private JLabel team2_soldiers;
     private JPanel infoBar;
+    private JLabel title1, title2;
 
 //    private Thread turnThread;
     public GraphicalWorld() {
@@ -53,6 +54,12 @@ public class GraphicalWorld implements GraphicEngine {
         team2_soldiers = new JLabel();
         team2_soldiers.setOpaque(true);
         team2_soldiers.setBackground(Color.white);
+        
+        infoBar = new JPanel();
+        infoBar.setLayout(null);
+        
+        title1 = new JLabel();
+        title2 = new JLabel();
 
         try {
             spaceship_blue = ImageIO.read(getClass().getResource("/resources/Spaceship_blue.png"));
@@ -192,13 +199,11 @@ public class GraphicalWorld implements GraphicEngine {
         this.team1 = team1;
         this.team2 = team2;
 
-        infoBar = new JPanel();
-        infoBar.setLayout(null);
         infoBar.setLocation(0, 0);
         infoBar.setSize(window.getWidth(), 50);
         window.add(infoBar);
 
-        JLabel title1 = new JLabel();
+        
         title1.setOpaque(true);
         title1.setFont(new Font("Serif", Font.BOLD, 17));
         title1.setLocation(0, 0);
@@ -209,7 +214,6 @@ public class GraphicalWorld implements GraphicEngine {
         title1.setText("<html><font color='white'>" + team1 + "</font></html>");
         infoBar.add(title1);
 
-        JLabel title2 = new JLabel();
         title2.setOpaque(true);
         title2.setFont(new Font("Serif", Font.BOLD, 20));
         title2.setLocation(window.getWidth() / 2, 0);
