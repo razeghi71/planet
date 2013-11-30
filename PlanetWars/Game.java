@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,10 +63,11 @@ public class Game {
      * Run Game
      */
     public void doSim() {
-
+    	
         Thread[] ReaderThread = new Thread[2];
+        int tmpRand = new Random().nextInt() % 2 ;
         for (int i = 0; i < 2; i++) {
-            final int localI = i;
+            final int localI = (tmpRand + i) % 2;
             ReaderThread[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
