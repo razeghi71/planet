@@ -80,14 +80,14 @@ public class Game {
                         String[] parts = msg.split(" ");
                         if (parts.length == 3) {
                             try {
-                                int from = Integer.parseInt(parts[0]);
-                                int to = Integer.parseInt(parts[1]);
+                                int from = Integer.parseInt(parts[0]) - 1 ;
+                                int to = Integer.parseInt(parts[1]) - 1;
                                 int nr = Integer.parseInt(parts[2]);
 
-                                if (from > 0 && to > 0 && from <= p.length && to <= p.length
-                                        && teams[localI].equals(p[from - 1].getOwner())
+                                if (from >= 0 && to >= 0 && from < p.length && to < p.length
+                                        && teams[localI].equals(p[from].getOwner())
                                         && nr > 0) {
-                                    world.sendSoldier(from - 1, to - 1, nr);
+                                    world.sendSoldier(from, to, nr);
                                 }
                             } catch (NumberFormatException nfe) {
                             }
