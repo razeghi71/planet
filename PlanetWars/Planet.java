@@ -31,6 +31,11 @@ public class Planet {
         this.id = id;
     }
     
+
+    private int getGrowthRate(){
+    	return getDiameter() / Planet.SoldierCreateRate;
+    }
+    
     public int getDiameter() {
         return diameter;
     }    
@@ -67,10 +72,7 @@ public class Planet {
             this.numberOfSoldiers += getGrowthRate();
         }
     }
-    
-    private int getGrowthRate(){
-    	return this.diameter / Planet.SoldierCreateRate;
-    }
+  
 
     public int getId() {
         return id;
