@@ -148,7 +148,17 @@ public class Game {
         }
         
         
-        int our_time = 0 ;
+    	synchronized (write_lock) {
+			write_lock.notifyAll();
+		}
+	
+    	try {
+            Thread.sleep(messgeCycle);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    	int our_time = 0 ;
         while (!world.isGameFinished()) {
         	
         	int tmp = (messgeCycle / updateCycle);
@@ -156,15 +166,7 @@ public class Game {
         	
         	our_time = 0;
         	
-        	if (our_time % tmp == 0){
-        		synchronized (write_lock) {
-        			write_lock.notifyAll();
-        		}
-        	}
-            
-        	
-        	//TODO step tartib 2rost she :D
-        	
+        	        	
         	 
         	if (our_time % tmp == 0){
 	        	for(int i = 0 ; i < 2 ; i++){
@@ -179,6 +181,13 @@ public class Game {
         	
         	world.Step();
         		
+        	
+        	if (our_time % tmp == 0){
+        		synchronized (write_lock) {
+        			write_lock.notifyAll();
+        		}
+        	}
+        	
         	our_time++ ;
         	
         	try {
