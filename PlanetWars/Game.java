@@ -84,7 +84,7 @@ public class Game {
                                 int to = Integer.parseInt(parts[1]);
                                 int nr = Integer.parseInt(parts[2]);
 
-                                if (from > 0 && to > 0 && from < p.length && to < p.length
+                                if (from > 0 && to > 0 && from <= p.length && to <= p.length
                                         && teams[localI].equals(p[from - 1].getOwner())
                                         && nr > 0) {
                                     world.sendSoldier(from - 1, to - 1, nr);
